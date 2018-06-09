@@ -27,7 +27,7 @@ class Main {
         System.out.println("Indexing...");
         indexer.addFilesToIndex(files);
 
-        System.out.println("Ready.\n\n");
+        System.out.println("Ready.\n");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -49,6 +49,8 @@ class Main {
             for (FileMatch match : matches) {
                 System.out.println(formatter.formatMatch(match));
             }
+
+            System.out.println();
         }
     }
 
