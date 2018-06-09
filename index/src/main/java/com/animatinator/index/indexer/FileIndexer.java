@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class FileIndexer {
     private final StringNormaliser stringNormaliser;
-    private final HashMapFileIndex fileIndex;
+    private final FileIndex fileIndex;
 
     public FileIndexer(StringNormaliser stringNormaliser) {
         this.stringNormaliser = stringNormaliser;

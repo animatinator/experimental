@@ -6,14 +6,15 @@ import com.animatinator.index.normalise.StringNormaliser;
 
 import java.util.*;
 
-public class HashMapFileIndex implements FileIndex {
+class HashMapFileIndex implements FileIndex {
     private final Map<String, List<FileMatch>> index = new HashMap<>();
     private final StringNormaliser normaliser;
 
-    public HashMapFileIndex(StringNormaliser normaliser) {
+    HashMapFileIndex(StringNormaliser normaliser) {
         this.normaliser = normaliser;
     }
 
+    @Override
     public void addMatch(String key, FileMatch match) {
         if (index.containsKey(key)) {
             index.get(key).add(match);
