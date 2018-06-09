@@ -3,7 +3,7 @@ package com.animatinator.index;
 import com.animatinator.index.files.File;
 import com.animatinator.index.format.MatchFormatter;
 import com.animatinator.index.format.SimpleMatchFormatter;
-import com.animatinator.index.indexer.builder.FileIndexer;
+import com.animatinator.index.indexer.FileIndexer;
 import com.animatinator.index.indexer.match.FileMatch;
 import com.animatinator.index.normalise.StringNormaliser;
 import com.animatinator.index.normalise.StringNormaliserImpl;

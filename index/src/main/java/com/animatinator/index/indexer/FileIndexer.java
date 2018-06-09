@@ -1,4 +1,4 @@
-package com.animatinator.index.indexer.builder;
+package com.animatinator.index.indexer;
 
 import com.animatinator.index.files.File;
 import com.animatinator.index.indexer.HashMapFileIndex;

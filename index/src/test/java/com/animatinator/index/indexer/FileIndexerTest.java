@@ -1,6 +1,7 @@
-package com.animatinator.index.indexer.builder;
+package com.animatinator.index.indexer;
 
 import com.animatinator.index.files.File;
+import com.animatinator.index.indexer.FileIndexer;
 import com.animatinator.index.indexer.match.FileMatch;
 import com.animatinator.index.indexer.search.IndexSearcher;
 import com.animatinator.index.normalise.FakeStringNormaliser;
