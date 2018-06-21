@@ -12,7 +12,7 @@ import static java.lang.Math.min;
 
 public class Board {
     @Nullable
-    private String[][] cachedLayout;
+    private BoardLayout cachedLayout;
     private List<LaidWord> laidWords = new ArrayList<>();
 
     public Board() {}
@@ -21,7 +21,7 @@ public class Board {
         laidWords.add(new LaidWord(word, position, direction));
     }
 
-    String[][] getLayout() {
+    BoardLayout getLayout() {
         if (cachedLayout != null) {
             return  cachedLayout;
         }
@@ -41,15 +41,15 @@ public class Board {
         return new Boundaries(new BoardPosition(left, top), new BoardPosition(right, bottom));
     }
 
-    private String[][] recomputeLayoutAndCache() {
-        String[][] newLayout = recomputeLayout();
+    private BoardLayout recomputeLayoutAndCache() {
+        BoardLayout newLayout = recomputeLayout();
         cachedLayout = newLayout;
         return newLayout;
     }
 
-    private String[][] recomputeLayout() {
+    private BoardLayout recomputeLayout() {
         Boundaries boundaries = getBoundaries();
-        String[][] layout = createEmptyLayout(boundaries.getWidth(), boundaries.getHeight());
+        BoardLayout layout = new BoardLayout(boundaries.getWidth(), boundaries.getHeight());
 
         for (LaidWord word : laidWords) {
             addWordToLayout(word, layout);
@@ -58,26 +58,16 @@ public class Board {
         return layout;
     }
 
-    private void addWordToLayout(LaidWord word, String[][] layout) {
+    private void addWordToLayout(LaidWord word, BoardLayout layout) {
         List<String> characters = word.getCharacters();
         BoardPosition startPos = word.getTopLeft();
         int xDirection = (word.getDirection() == Direction.HORIZONTAL) ? 1 : 0;
         int yDirection = (word.getDirection() == Direction.VERTICAL) ? 1 : 0;
 
         for (int i = 0; i < word.getLength(); i++) {
-            layout[startPos.y() + yDirection * i][startPos.x() + xDirection * i] = characters.get(i);
+            layout.setTile(
+                    new BoardPosition(startPos.x() + xDirection * i, startPos.y() + yDirection * i),
+                    characters.get(i));
         }
-    }
-
-    private String[][] createEmptyLayout(int width, int height) {
-        String[][] layout = new String[height][width];
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                layout[y][x] = ".";
-            }
-        }
-
-        return layout;
     }
 }
