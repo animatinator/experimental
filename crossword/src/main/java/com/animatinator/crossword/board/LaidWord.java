@@ -3,6 +3,9 @@ package com.animatinator.crossword.board;
 import com.animatinator.crossword.util.BoardPosition;
 import com.animatinator.crossword.util.Direction;
 
+import java.util.Arrays;
+import java.util.List;
+
 class LaidWord {
     private final String word;
     private final BoardPosition position;
@@ -18,7 +21,7 @@ class LaidWord {
         return word;
     }
 
-    private int getLength() {
+    int getLength() {
         return word.length();
     }
 
@@ -35,5 +38,9 @@ class LaidWord {
 
     Direction getDirection() {
         return direction;
+    }
+
+    List<String> getCharacters() {
+        return Arrays.asList(word.split(""));
     }
 }

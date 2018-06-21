@@ -7,11 +7,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
 public class BoardTest {
   private Board simpleBoard;
+  private String[][] simpleBoardLayout;
 
   /**
    * test..
@@ -25,6 +27,12 @@ public class BoardTest {
     simpleBoard.addWord("test", new BoardPosition(0, 0), Direction.HORIZONTAL);
     simpleBoard.addWord("words", new BoardPosition(0, 2), Direction.HORIZONTAL);
     simpleBoard.addWord("tidy", new BoardPosition(3, 0), Direction.VERTICAL);
+
+    simpleBoardLayout = new String[][] {
+            {"t", "e", "s", "t", "."},
+            {".", ".", ".", "i", "."},
+            {"w", "o", "r", "d", "s"},
+            {".", ".", ".", "y", "."},};
   }
 
   @Test
@@ -36,7 +44,8 @@ public class BoardTest {
   public void emptyLayout() {
       Board board = new Board();
       String[][] layout = board.getLayout();
-      assertEquals(0, layout.length);
+      assertEquals(1, layout.length);
+      assertEquals(1, layout[0].length);
   }
 
   @Test
@@ -54,5 +63,10 @@ public class BoardTest {
     Boundaries boundaries = simpleBoard.getBoundaries();
     assertEquals(new BoardPosition(0, 0), boundaries.getTopLeft());
     assertEquals(new BoardPosition(4, 3), boundaries.getBottomRight());
+  }
+
+  @Test
+  public void getLayout() {
+    assertArrayEquals(simpleBoardLayout, simpleBoard.getLayout());
   }
 }

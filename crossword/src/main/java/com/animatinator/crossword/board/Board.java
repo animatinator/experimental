@@ -6,7 +6,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -49,6 +48,36 @@ class Board {
     }
 
     private String[][] recomputeLayout() {
-        return new String[0][];
+        Boundaries boundaries = getBoundaries();
+        String[][] layout = createEmptyLayout(boundaries.getWidth(), boundaries.getHeight());
+
+        for (LaidWord word : laidWords) {
+            addWordToLayout(word, layout);
+        }
+
+        return layout;
+    }
+
+    private void addWordToLayout(LaidWord word, String[][] layout) {
+        List<String> characters = word.getCharacters();
+        BoardPosition startPos = word.getTopLeft();
+        int xDirection = (word.getDirection() == Direction.HORIZONTAL) ? 1 : 0;
+        int yDirection = (word.getDirection() == Direction.VERTICAL) ? 1 : 0;
+
+        for (int i = 0; i < word.getLength(); i++) {
+            layout[startPos.y() + yDirection * i][startPos.x() + xDirection * i] = characters.get(i);
+        }
+    }
+
+    private String[][] createEmptyLayout(int width, int height) {
+        String[][] layout = new String[height][width];
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                layout[y][x] = ".";
+            }
+        }
+
+        return layout;
     }
 }
