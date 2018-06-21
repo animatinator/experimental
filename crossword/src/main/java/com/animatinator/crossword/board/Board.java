@@ -10,12 +10,12 @@ import java.util.List;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-class Board {
+public class Board {
     @Nullable
     private String[][] cachedLayout;
     private List<LaidWord> laidWords = new ArrayList<>();
 
-    Board() {}
+    public Board() {}
 
     void addWord(String word, BoardPosition position, Direction direction) {
         laidWords.add(new LaidWord(word, position, direction));
