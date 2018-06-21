@@ -46,7 +46,7 @@ public class BoardLayout {
         return height;
     }
 
-    void copyLayourFromStringArray(String[][] stringArray) {
+    void copyLayoutFromStringArray(String[][] stringArray) {
         layout = stringArray;
     }
 

@@ -28,7 +28,7 @@ public class BoardTest {
     simpleBoard.addWord("tidy", new BoardPosition(3, 0), Direction.VERTICAL);
 
     simpleBoardLayout = new BoardLayout(5, 4);
-    simpleBoardLayout.copyLayourFromStringArray(new String[][] {
+    simpleBoardLayout.copyLayoutFromStringArray(new String[][] {
             {"t", "e", "s", "t", "."},
             {".", ".", ".", "i", "."},
             {"w", "o", "r", "d", "s"},
