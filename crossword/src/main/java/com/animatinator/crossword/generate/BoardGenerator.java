@@ -4,8 +4,8 @@ import com.animatinator.crossword.board.Board;
 
 import java.util.List;
 
-class BoardGenerator {
-    Board generateBoard(List<String> possibleWords) {
+public class BoardGenerator {
+    public Board generateBoard(List<String> possibleWords) {
         sortByLengthDescending(possibleWords);
 
         return new Board();

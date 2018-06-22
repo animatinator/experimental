@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class BoardLayout {
-    static final String EMPTY_SPACE = ".";
+    private static final String EMPTY_SPACE = ".";
 
     private final int width;
     private final int height;
@@ -23,7 +23,7 @@ public class BoardLayout {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                emptyLayout[y][x] = ".";
+                emptyLayout[y][x] = EMPTY_SPACE;
             }
         }
 
@@ -38,11 +38,11 @@ public class BoardLayout {
         return layout[position.y()][position.x()];
     }
 
-    int getWidth() {
+    public int getWidth() {
         return width;
     }
 
-    int getHeight() {
+    public int getHeight() {
         return height;
     }
 

@@ -17,11 +17,11 @@ public class Board {
 
     public Board() {}
 
-    void addWord(String word, BoardPosition position, Direction direction) {
+    public void addWord(String word, BoardPosition position, Direction direction) {
         laidWords.add(new LaidWord(word, position, direction));
     }
 
-    BoardLayout getLayout() {
+    public BoardLayout getLayout() {
         if (cachedLayout != null) {
             return  cachedLayout;
         }
