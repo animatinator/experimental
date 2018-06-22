@@ -30,8 +30,8 @@ public class BoardPrinterTest {
     @Before
     public void setUpTestBoard() {
         testBoard = new Board();
-        testBoard.addWord("test", new BoardPosition(1, 1), Direction.VERTICAL);
-        testBoard.addWord("hello", new BoardPosition(0, 2), Direction.HORIZONTAL);
+        testBoard.addWord("test", new BoardPosition(1, 0), Direction.VERTICAL);
+        testBoard.addWord("hello", new BoardPosition(0, 1), Direction.HORIZONTAL);
     }
 
     @Test

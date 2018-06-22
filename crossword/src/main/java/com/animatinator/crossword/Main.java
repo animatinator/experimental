@@ -8,6 +8,7 @@ import com.animatinator.crossword.util.BoardPosition;
 import com.animatinator.crossword.util.Direction;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     private static final String[] words = new String[]{
@@ -21,5 +22,6 @@ public class Main {
         board.addWord("hello", new BoardPosition(0, 2), Direction.HORIZONTAL);
         BoardPrinter printer = new BoardPrinter(new SystemOutPrinter());
         printer.printBoard(board);
+        List<Board.WordAttachmentPoint> matches = board.getPossibleAttachmentPointsForWord("lest");
     }
 }
