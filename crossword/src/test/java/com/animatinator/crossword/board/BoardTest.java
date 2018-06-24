@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(JUnit4.class)
 public class BoardTest {
@@ -100,7 +101,17 @@ public class BoardTest {
     assertTrue(layout.isIntersection(new BoardPosition(3, 2)));
   }
 
-  // TODO adding word causing bad intersection fails
+  @Test
+  public void badIntersectionDenied() {
+      Board board = new Board();
+      board.addWord("patter", new BoardPosition(1, 2), Direction.HORIZONTAL);
+      try {
+          board.addWord("test", new BoardPosition(2, 2), Direction.VERTICAL);
+      } catch (IllegalArgumentException expected) {
+          return;
+      }
+      fail("Shouldn't have been able to add 'test' there");
+  }
 
   @Test
   public void getLayout() {

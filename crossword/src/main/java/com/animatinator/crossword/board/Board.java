@@ -4,7 +4,12 @@ import com.animatinator.crossword.util.BoardPosition;
 import com.animatinator.crossword.util.Direction;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -17,7 +22,12 @@ public class Board {
     public Board() {}
 
     public void addWord(String word, BoardPosition position, Direction direction) {
-        laidWords.add(new LaidWord(word, position, direction));
+        LaidWord wordToLay = new LaidWord(word, position, direction);
+        if (canWordBeAdded(wordToLay)) {
+            laidWords.add(wordToLay);
+        } else {
+            throw new IllegalArgumentException("Can't add word here! It intersects incorrectly with an existing word.");
+        }
     }
 
     // TODO: This is a sketch; TDD to completion.
@@ -113,6 +123,30 @@ public class Board {
                     current,
                     characters.get(i));
         }
+    }
+
+    private boolean canWordBeAdded(LaidWord wordToLay) {
+        Direction direction = wordToLay.getDirection();
+        // TODO this misses words in the same direction on the same line. Add a test and fix.
+        Stream<LaidWord> possibleCollisions = laidWords.stream().filter(word -> word.getDirection() != direction);
+        return possibleCollisions.noneMatch(laidWord -> wordsIntersect(wordToLay, laidWord));
+    }
+
+    private boolean wordsIntersect(LaidWord first, LaidWord second) {
+        if (first.getDirection() == Direction.HORIZONTAL
+                && second.getDirection() == Direction.HORIZONTAL) {
+            // TODO implement the specific case for this.
+            return false;
+        }
+
+        if (first.getDirection() == Direction.VERTICAL
+                && second.getDirection() == Direction.VERTICAL) {
+            // TODO implement the specific case for this.
+            return false;
+        }
+
+        // TODO implement the general crossing case.
+        return false;
     }
 
     public static class WordAttachmentPoint {
