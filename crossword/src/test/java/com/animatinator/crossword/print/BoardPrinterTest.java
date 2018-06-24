@@ -13,8 +13,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class BoardPrinterTest {
     private Board testBoard;
-    private final String testBoardString = ".....\n" +
-            ".t...\n" +
+    private final String testBoardString = ".t...\n" +
             "hello\n" +
             ".s...\n" +
             ".t...\n";

@@ -4,17 +4,14 @@ import com.animatinator.crossword.util.BoardPosition;
 import com.animatinator.crossword.util.Direction;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class Board {
     @Nullable
-    private BoardLayout cachedLayout;
+    private BoardLayout boardLayout;
     private List<LaidWord> laidWords = new ArrayList<>();
 
     public Board() {}
@@ -60,8 +57,8 @@ public class Board {
     }
 
     public BoardLayout getLayout() {
-        if (cachedLayout != null) {
-            return  cachedLayout;
+        if (boardLayout != null) {
+            return boardLayout;
         }
         return recomputeLayoutAndCache();
     }
@@ -81,7 +78,7 @@ public class Board {
 
     private BoardLayout recomputeLayoutAndCache() {
         BoardLayout newLayout = recomputeLayout();
-        cachedLayout = newLayout;
+        boardLayout = newLayout;
         return newLayout;
     }
 
@@ -103,8 +100,17 @@ public class Board {
         int yDirection = (word.getDirection() == Direction.VERTICAL) ? 1 : 0;
 
         for (int i = 0; i < word.getLength(); i++) {
+            BoardPosition current = new BoardPosition(startPos.x() + xDirection * i, startPos.y() + yDirection * i);
+            Optional<String> valueAtCurrent = layout.getAt(current);
+            if (valueAtCurrent.isPresent()) {
+                // Throw if this word clashes. We should have prevented this elsewhere though.
+                if (!valueAtCurrent.get().equals(characters.get(i))) {
+                    throw new IllegalArgumentException("Can't add word '"+ word.getWord()+"' because it clashes on character "+characters.get(i));
+                }
+                layout.markIntersection(current);
+            }
             layout.setTile(
-                    new BoardPosition(startPos.x() + xDirection * i, startPos.y() + yDirection * i),
+                    current,
                     characters.get(i));
         }
     }

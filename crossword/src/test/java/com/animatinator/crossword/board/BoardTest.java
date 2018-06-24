@@ -7,7 +7,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class BoardTest {
@@ -66,7 +69,47 @@ public class BoardTest {
   }
 
   @Test
+  public void wordLaidCorrectly_vertical() {
+    Board board = new Board();
+    board.addWord("word", new BoardPosition(3, 4), Direction.VERTICAL);
+    BoardLayout layout = board.getLayout();
+    assertValueAtPositionEquals(layout, 3, 4, "w");
+    assertValueAtPositionEquals(layout, 3, 5, "o");
+    assertValueAtPositionEquals(layout, 3, 6, "r");
+    assertValueAtPositionEquals(layout, 3, 7, "d");
+  }
+
+  @Test
+  public void wordLaidCorrectly_horizontal() {
+    Board board = new Board();
+    board.addWord("word", new BoardPosition(3, 4), Direction.HORIZONTAL);
+    BoardLayout layout = board.getLayout();
+    assertValueAtPositionEquals(layout, 3, 4, "w");
+    assertValueAtPositionEquals(layout, 4, 4, "o");
+    assertValueAtPositionEquals(layout, 5, 4, "r");
+    assertValueAtPositionEquals(layout, 6, 4, "d");
+  }
+
+  @Test
+  public void intersectionMarkedCorrectly() {
+    Board board = new Board();
+    board.addWord("patter", new BoardPosition(1, 2), Direction.HORIZONTAL);
+    board.addWord("test", new BoardPosition(3, 2), Direction.VERTICAL);
+    BoardLayout layout = board.getLayout();
+    assertValueAtPositionEquals(layout, 3, 2, "t");
+    assertTrue(layout.isIntersection(new BoardPosition(3, 2)));
+  }
+
+  // TODO adding word causing bad intersection fails
+
+  @Test
   public void getLayout() {
     assertEquals(simpleBoardLayout, simpleBoard.getLayout());
+  }
+
+  private void assertValueAtPositionEquals(BoardLayout layout, int x, int y, String expectedValue) {
+    Optional<String> optionalValue = layout.getAt(new BoardPosition(x, y));
+    assertTrue(optionalValue.isPresent());
+    assertEquals(expectedValue, optionalValue.get());
   }
 }
