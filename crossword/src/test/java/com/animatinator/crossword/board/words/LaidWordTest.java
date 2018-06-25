@@ -1,4 +1,4 @@
-package com.animatinator.crossword.board;
+package com.animatinator.crossword.board.words;
 
 import com.animatinator.crossword.board.words.LaidWord;
 import com.animatinator.crossword.util.BoardPosition;
