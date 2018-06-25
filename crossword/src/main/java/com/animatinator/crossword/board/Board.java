@@ -4,7 +4,6 @@ import com.animatinator.crossword.board.words.LaidWord;
 import com.animatinator.crossword.board.words.WordIntersections;
 import com.animatinator.crossword.util.BoardPosition;
 import com.animatinator.crossword.util.Direction;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,8 +15,6 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class Board {
-    @Nullable
-    private BoardLayout boardLayout;
     private List<LaidWord> laidWords = new ArrayList<>();
     private final WordIntersections intersectionDetector = new WordIntersections();
 
