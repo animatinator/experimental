@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(JUnit4.class)
 public class WordIntersectionsTest {
     private static final String TEST = "Test";
-    private static final String WORD = "Test";
+    private static final String WORD = "Word";
     private final WordIntersections wordIntersections = new WordIntersections();
 
     @Test
@@ -104,6 +104,20 @@ public class WordIntersectionsTest {
         LaidWord first = createWord(TEST, 0, 0, Direction.HORIZONTAL);
         LaidWord second = createWord(TEST, 0, 0, Direction.VERTICAL);
         assertFalse(wordIntersections.wordsIntersectIllegally(first, second));
+    }
+
+    @Test
+    public void anotherValidIntersectionBecauseLettersMatch() {
+        LaidWord first = createWord(WORD, 0, 1, Direction.HORIZONTAL);
+        LaidWord second = createWord(WORD, 1, 0, Direction.VERTICAL);
+        assertFalse(wordIntersections.wordsIntersectIllegally(first, second));
+    }
+
+    @Test
+    public void sameAxisOverlapNotAllowed() {
+        LaidWord first = createWord(TEST, 0, 0, Direction.HORIZONTAL);
+        LaidWord second = createWord(TEST, 0, 0, Direction.HORIZONTAL);
+        assertTrue(wordIntersections.wordsIntersectIllegally(first, second));
     }
 
     private LaidWord createWord(String word, int x, int y, Direction direction) {
