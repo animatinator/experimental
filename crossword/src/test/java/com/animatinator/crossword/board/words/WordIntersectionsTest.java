@@ -126,6 +126,8 @@ public class WordIntersectionsTest {
         LaidWord first = createWord("patter", 1, 2, Direction.HORIZONTAL);
         LaidWord second = createWord("test", 1, 3, Direction.VERTICAL);
         LaidWord third = createWord("sat", 1, 5, Direction.HORIZONTAL);
+
+        // TODO this first one is breaking, don't know about the second yet.
         assertFalse(wordIntersections.wordsIntersectIllegally(first, second));
         assertFalse(wordIntersections.wordsIntersectIllegally(second, third));
     }
