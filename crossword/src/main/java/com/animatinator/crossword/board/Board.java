@@ -60,7 +60,7 @@ public class Board {
                             (laidWord.getDirection() == Direction.VERTICAL) ? Direction.HORIZONTAL : Direction.VERTICAL;
 
                     // TODO: handle other incorrect overlaps.
-                    attachmentPoints.add(new WordAttachmentPoint(new BoardPosition(xPos, yPos), direction, currentLetter));
+                    attachmentPoints.add(new WordAttachmentPoint(new BoardPosition(xPos, yPos), direction));
                 }
             }
         }
@@ -128,21 +128,17 @@ public class Board {
     }
 
     private boolean canWordBeAdded(LaidWord wordToLay) {
-        Direction direction = wordToLay.getDirection();
-        // TODO this will disallow intersections even where the letter matches. Need to fix this.
-        return laidWords.stream().noneMatch(laidWord -> intersectionDetector.wordsIntersectIllegally(wordToLay, laidWord));
+        return laidWords.stream().noneMatch(
+                laidWord -> intersectionDetector.wordsIntersectIllegally(wordToLay, laidWord));
     }
 
     public static class WordAttachmentPoint {
         private final BoardPosition position;
         private final Direction direction;
-        // TODO: Remove.
-        private String letterForTest;
 
-        WordAttachmentPoint(BoardPosition position, Direction direction, String letterForTest) {
+        WordAttachmentPoint(BoardPosition position, Direction direction) {
             this.position = position;
             this.direction = direction;
-            this.letterForTest = letterForTest;
         }
 
         public BoardPosition getPosition() {
