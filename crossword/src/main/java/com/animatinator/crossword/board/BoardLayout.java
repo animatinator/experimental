@@ -41,15 +41,33 @@ public class BoardLayout {
     }
 
     public Optional<String> getAt(BoardPosition position) {
+        if (!isOnBoard(position)) {
+            throw new IllegalArgumentException("Requesting a position which isn't on the board!");
+        }
         return valueAt(position).getValue();
     }
 
     boolean isIntersection(BoardPosition position) {
-        return valueAt(position).isIntersection();
+        return isOnBoard(position) && valueAt(position).isIntersection();
+    }
+
+    private boolean isOnBoard(BoardPosition position) {
+        return position.x() >= 0 && position.x() < width && position.y() >= 0 && position.y() < height;
     }
 
     private BoardTile valueAt(BoardPosition position) {
         return layout[position.y()][position.x()];
+    }
+
+    boolean isAdjacentToExistingIntersection(BoardPosition position) {for (int x = -1; x <= 1; x++) {
+        for (int y = -1; y <= 1; y++) {
+            if (isIntersection(position.withXOffset(x).withYOffset(y))) {
+                return true;
+            }
+        }
+    }
+
+        return false;
     }
 
     public int getWidth() {

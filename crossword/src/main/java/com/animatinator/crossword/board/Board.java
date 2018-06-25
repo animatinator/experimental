@@ -33,8 +33,8 @@ public class Board {
     // TODO: Don't attach a word next to a parallel word (or indeed on top of it).
     public List<LaidWord> getPossibleAttachmentPointsForWord(String wordToAdd) {
         List<LaidWord> attachmentPoints = new ArrayList<>();
-
         HashSet<String> lettersInNewWord = new HashSet<>(Arrays.asList(wordToAdd.split("")));
+        BoardLayout currentBoardLayout = getLayout();
 
         for (LaidWord laidWord : laidWords) {
             List<String> letters = laidWord.getCharacters();
@@ -60,7 +60,7 @@ public class Board {
                     LaidWord possibleNewLaidWord = new LaidWord(wordToAdd, newAttachmentPosition, direction);
 
                     if (canWordBeAdded(possibleNewLaidWord)) {
-                        if (!isAdjacentToExistingIntersection(newAttachmentPosition)) {
+                        if (!currentBoardLayout.isAdjacentToExistingIntersection(newAttachmentPosition)) {
                             attachmentPoints.add(possibleNewLaidWord);
                         }
                     }
@@ -124,11 +124,5 @@ public class Board {
     private boolean canWordBeAdded(LaidWord wordToLay) {
         return laidWords.stream().noneMatch(
                 laidWord -> intersectionDetector.wordsIntersectIllegally(wordToLay, laidWord));
-    }
-
-    // TODO: Implement this using existing intersection information in the board layout. Maybe don't put this here -
-    // precompute the layout in the caller and put this method inside it.
-    private boolean isAdjacentToExistingIntersection(BoardPosition possibleNewIntersection) {
-        return false;
     }
 }
