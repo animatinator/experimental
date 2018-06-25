@@ -1,5 +1,7 @@
 package com.animatinator.crossword.board;
 
+import com.animatinator.crossword.board.words.LaidWord;
+import com.animatinator.crossword.board.words.WordIntersections;
 import com.animatinator.crossword.util.BoardPosition;
 import com.animatinator.crossword.util.Direction;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +11,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -18,6 +19,7 @@ public class Board {
     @Nullable
     private BoardLayout boardLayout;
     private List<LaidWord> laidWords = new ArrayList<>();
+    private final WordIntersections intersectionDetector = new WordIntersections();
 
     public Board() {}
 
@@ -127,26 +129,8 @@ public class Board {
 
     private boolean canWordBeAdded(LaidWord wordToLay) {
         Direction direction = wordToLay.getDirection();
-        // TODO this misses words in the same direction on the same line. Add a test and fix.
-        Stream<LaidWord> possibleCollisions = laidWords.stream().filter(word -> word.getDirection() != direction);
-        return possibleCollisions.noneMatch(laidWord -> wordsIntersect(wordToLay, laidWord));
-    }
-
-    private boolean wordsIntersect(LaidWord first, LaidWord second) {
-        if (first.getDirection() == Direction.HORIZONTAL
-                && second.getDirection() == Direction.HORIZONTAL) {
-            // TODO implement the specific case for this.
-            return false;
-        }
-
-        if (first.getDirection() == Direction.VERTICAL
-                && second.getDirection() == Direction.VERTICAL) {
-            // TODO implement the specific case for this.
-            return false;
-        }
-
-        // TODO implement the general crossing case.
-        return false;
+        // TODO this will disallow intersections even where the letter matches. Need to fix this.
+        return laidWords.stream().noneMatch(laidWord -> intersectionDetector.wordsIntersectIllegally(wordToLay, laidWord));
     }
 
     public static class WordAttachmentPoint {

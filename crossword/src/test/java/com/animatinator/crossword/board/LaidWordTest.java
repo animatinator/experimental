@@ -1,5 +1,6 @@
 package com.animatinator.crossword.board;
 
+import com.animatinator.crossword.board.words.LaidWord;
 import com.animatinator.crossword.util.BoardPosition;
 import com.animatinator.crossword.util.Direction;
 import org.junit.Test;
