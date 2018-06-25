@@ -120,6 +120,16 @@ public class WordIntersectionsTest {
         assertTrue(wordIntersections.wordsIntersectIllegally(first, second));
     }
 
+    // TODO using this to debug BoardTest.getAttachments_validUnintendedOverlap
+    @Test
+    public void nearPerpendicularIntersection() {
+        LaidWord first = createWord("patter", 1, 2, Direction.HORIZONTAL);
+        LaidWord second = createWord("test", 1, 3, Direction.VERTICAL);
+        LaidWord third = createWord("sat", 1, 5, Direction.HORIZONTAL);
+        assertFalse(wordIntersections.wordsIntersectIllegally(first, second));
+        assertFalse(wordIntersections.wordsIntersectIllegally(second, third));
+    }
+
     private LaidWord createWord(String word, int x, int y, Direction direction) {
         return new LaidWord(word, new BoardPosition(x, y), direction);
     }

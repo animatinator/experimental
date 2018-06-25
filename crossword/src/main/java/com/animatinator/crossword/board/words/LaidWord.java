@@ -5,6 +5,7 @@ import com.animatinator.crossword.util.Direction;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class LaidWord {
     private final String word;
@@ -42,5 +43,21 @@ public class LaidWord {
 
     public List<String> getCharacters() {
         return Arrays.asList(word.split(""));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LaidWord laidWord = (LaidWord) o;
+        return Objects.equals(word, laidWord.word) &&
+                Objects.equals(position, laidWord.position) &&
+                direction == laidWord.direction;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(word, position, direction);
     }
 }

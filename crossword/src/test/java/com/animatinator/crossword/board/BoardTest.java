@@ -1,5 +1,6 @@
 package com.animatinator.crossword.board;
 
+import com.animatinator.crossword.board.words.LaidWord;
 import com.animatinator.crossword.util.BoardPosition;
 import com.animatinator.crossword.util.Direction;
 import org.junit.Before;
@@ -7,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -118,9 +121,54 @@ public class BoardTest {
     assertEquals(simpleBoardLayout, simpleBoard.getLayout());
   }
 
+  @Test
+  public void getAttachments_simple() {
+      Board board = new Board();
+      board.addWord("patter", new BoardPosition(1, 2), Direction.HORIZONTAL);
+
+      List<LaidWord> expected = new ArrayList<>();
+      expected.add(new LaidWord("test", new BoardPosition(3, 2), Direction.VERTICAL));
+      expected.add(new LaidWord("test", new BoardPosition(4, 2), Direction.VERTICAL));
+      expected.add(new LaidWord("test", new BoardPosition(5, 1), Direction.VERTICAL));
+
+      List<LaidWord> attachments  = board.getPossibleAttachmentPointsForWord("test");
+      assertListsEqual(expected, attachments);
+  }
+
+  @Test
+  public void getAttachments_obstacle() {
+      Board board = new Board();
+      board.addWord("batting", new BoardPosition(1, 2), Direction.HORIZONTAL);
+      board.addWord("xxxxxxx", new BoardPosition(1, 4), Direction.HORIZONTAL);
+
+      List<LaidWord> attachments  = board.getPossibleAttachmentPointsForWord("test");
+      assertEquals(0, attachments.size());
+  }
+
+  @Test
+  public void getAttachments_validUnintendedOverlap() {
+      Board board = new Board();
+      board.addWord("patter", new BoardPosition(1, 2), Direction.HORIZONTAL);
+      board.addWord("sat", new BoardPosition(1, 5), Direction.HORIZONTAL);
+
+      List<LaidWord> expected = new ArrayList<>();
+      expected.add(new LaidWord("test", new BoardPosition(3, 2), Direction.VERTICAL));
+      expected.add(new LaidWord("test", new BoardPosition(4, 2), Direction.VERTICAL));
+      expected.add(new LaidWord("test", new BoardPosition(5, 1), Direction.VERTICAL));
+
+      List<LaidWord> attachments  = board.getPossibleAttachmentPointsForWord("test");
+      assertListsEqual(expected, attachments);
+  }
+
   private void assertValueAtPositionEquals(BoardLayout layout, int x, int y, String expectedValue) {
     Optional<String> optionalValue = layout.getAt(new BoardPosition(x, y));
     assertTrue(optionalValue.isPresent());
     assertEquals(expectedValue, optionalValue.get());
+  }
+
+  private <T> void assertListsEqual(List<T> first, List<T> second) {
+      assertEquals(first.size(), second.size());
+      assertTrue(first.containsAll(second));
+      assertTrue(second.containsAll(first));
   }
 }
