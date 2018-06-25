@@ -75,10 +75,7 @@ public class Board {
     }
 
     public BoardLayout getLayout() {
-        if (boardLayout != null) {
-            return boardLayout;
-        }
-        return recomputeLayoutAndCache();
+        return recomputeLayout();
     }
 
     Boundaries getBoundaries() {
@@ -92,12 +89,6 @@ public class Board {
         }
 
         return new Boundaries(new BoardPosition(left, top), new BoardPosition(right, bottom));
-    }
-
-    private BoardLayout recomputeLayoutAndCache() {
-        BoardLayout newLayout = recomputeLayout();
-        boardLayout = newLayout;
-        return newLayout;
     }
 
     private BoardLayout recomputeLayout() {
