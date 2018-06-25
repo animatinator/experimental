@@ -34,8 +34,8 @@ public class Board {
 
     // TODO: This is a sketch; TDD to completion.
     // TODO: Don't attach a word next to a parallel word (or indeed on top of it).
-    public List<WordAttachmentPoint> getPossibleAttachmentPointsForWord(String wordToAdd) {
-        List<WordAttachmentPoint> attachmentPoints = new ArrayList<>();
+    public List<LaidWord> getPossibleAttachmentPointsForWord(String wordToAdd) {
+        List<LaidWord> attachmentPoints = new ArrayList<>();
 
         HashSet<String> lettersInNewWord = new HashSet<>(Arrays.asList(wordToAdd.split("")));
 
@@ -59,8 +59,14 @@ public class Board {
                     Direction direction =
                             (laidWord.getDirection() == Direction.VERTICAL) ? Direction.HORIZONTAL : Direction.VERTICAL;
 
-                    // TODO: handle other incorrect overlaps.
-                    attachmentPoints.add(new WordAttachmentPoint(new BoardPosition(xPos, yPos), direction));
+                    BoardPosition newAttachmentPosition = new BoardPosition(xPos, yPos);
+                    LaidWord possibleNewLaidWord = new LaidWord(wordToAdd, newAttachmentPosition, direction);
+
+                    if (canWordBeAdded(possibleNewLaidWord)) {
+                        if (!isAdjacentToExistingIntersection(newAttachmentPosition)) {
+                            attachmentPoints.add(possibleNewLaidWord);
+                        }
+                    }
                 }
             }
         }
@@ -132,21 +138,9 @@ public class Board {
                 laidWord -> intersectionDetector.wordsIntersectIllegally(wordToLay, laidWord));
     }
 
-    public static class WordAttachmentPoint {
-        private final BoardPosition position;
-        private final Direction direction;
-
-        WordAttachmentPoint(BoardPosition position, Direction direction) {
-            this.position = position;
-            this.direction = direction;
-        }
-
-        public BoardPosition getPosition() {
-            return position;
-        }
-
-        public Direction getDirection() {
-            return direction;
-        }
+    // TODO: Implement this using existing intersection information in the board layout. Maybe don't put this here -
+    // precompute the layout in the caller and put this method inside it.
+    private boolean isAdjacentToExistingIntersection(BoardPosition possibleNewIntersection) {
+        return false;
     }
 }

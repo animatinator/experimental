@@ -1,6 +1,7 @@
 package com.animatinator.crossword;
 
 import com.animatinator.crossword.board.Board;
+import com.animatinator.crossword.board.words.LaidWord;
 import com.animatinator.crossword.generate.BoardGenerator;
 import com.animatinator.crossword.print.BoardPrinter;
 import com.animatinator.crossword.print.SystemOutPrinter;
@@ -22,6 +23,6 @@ public class Main {
         board.addWord("hello", new BoardPosition(0, 2), Direction.HORIZONTAL);
         BoardPrinter printer = new BoardPrinter(new SystemOutPrinter());
         printer.printBoard(board);
-        List<Board.WordAttachmentPoint> matches = board.getPossibleAttachmentPointsForWord("lest");
+        List<LaidWord> matches = board.getPossibleAttachmentPointsForWord("lest");
     }
 }
