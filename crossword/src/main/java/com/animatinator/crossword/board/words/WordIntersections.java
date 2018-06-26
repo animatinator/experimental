@@ -58,7 +58,7 @@ public class WordIntersections {
         int horizontalY = horizontal.getTopLeft().y();
 
         if ((verticalX >= horizontal.getTopLeft().x() && verticalX <= horizontal.getBottomRight().x())
-                && (horizontalY >= vertical.getTopLeft().x() && horizontalY <= vertical.getBottomRight().y())) {
+                && (horizontalY >= vertical.getTopLeft().y() && horizontalY <= vertical.getBottomRight().y())) {
             String horizontalLetter = horizontal.getCharacters().get(verticalX - horizontal.getTopLeft().x());
             String verticalLetter = vertical.getCharacters().get(horizontalY - vertical.getTopLeft().y());
             return !horizontalLetter.equals(verticalLetter);

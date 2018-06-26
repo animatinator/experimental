@@ -74,7 +74,7 @@ public class WordIntersectionsTest {
     @Test
     public void noCrossingIntersection() {
         LaidWord first = createWord(TEST, 0, 2, Direction.HORIZONTAL);
-        LaidWord second = createWord(WORD, 3, 0, Direction.VERTICAL);
+        LaidWord second = createWord(WORD, 4, 0, Direction.VERTICAL);
         assertFalse(wordIntersections.wordsIntersectIllegally(first, second));
     }
 
@@ -120,14 +120,13 @@ public class WordIntersectionsTest {
         assertTrue(wordIntersections.wordsIntersectIllegally(first, second));
     }
 
-    // TODO using this to debug BoardTest.getAttachments_validUnintendedOverlap
     @Test
-    public void nearPerpendicularIntersection() {
+    public void complexIntersectionSet() {
+        // The second word intersects with the third and /nearly/ with the first.
         LaidWord first = createWord("patter", 1, 2, Direction.HORIZONTAL);
         LaidWord second = createWord("test", 1, 3, Direction.VERTICAL);
         LaidWord third = createWord("sat", 1, 5, Direction.HORIZONTAL);
 
-        // TODO this first one is breaking, don't know about the second yet.
         assertFalse(wordIntersections.wordsIntersectIllegally(first, second));
         assertFalse(wordIntersections.wordsIntersectIllegally(second, third));
     }

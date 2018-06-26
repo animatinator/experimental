@@ -28,6 +28,11 @@ public class BoardPosition {
     }
 
     @Override
+    public String toString() {
+        return String.format("BoardPosition(%d, %d)", x, y);
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == null) return false;
         if (!(other instanceof BoardPosition)) return false;
