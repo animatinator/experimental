@@ -20,6 +20,10 @@ public class Board {
 
     public Board() {}
 
+    public Board(Board existing) {
+        laidWords = new ArrayList<>(existing.laidWords);
+    }
+
     public void addWord(String word, BoardPosition position, Direction direction) {
         LaidWord wordToLay = new LaidWord(word, position, direction);
         if (canWordBeAdded(wordToLay)) {
@@ -29,8 +33,6 @@ public class Board {
         }
     }
 
-    // TODO: This is a sketch; TDD to completion.
-    // TODO: Don't attach a word next to a parallel word (or indeed on top of it).
     public List<LaidWord> getPossibleAttachmentPointsForWord(String wordToAdd) {
         List<LaidWord> attachmentPoints = new ArrayList<>();
         HashSet<String> lettersInNewWord = new HashSet<>(Arrays.asList(wordToAdd.split("")));
