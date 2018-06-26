@@ -11,6 +11,11 @@ public class BoardPosition {
         this.y = y;
     }
 
+    public BoardPosition(BoardPosition other) {
+        this.x = other.x;
+        this.y = other.y;
+    }
+
     public int x() {
         return  x;
     }

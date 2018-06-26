@@ -92,7 +92,7 @@ public class Board {
 
     private BoardLayout recomputeLayout() {
         Boundaries boundaries = getBoundaries();
-        BoardLayout layout = new BoardLayout(boundaries.getWidth(), boundaries.getHeight());
+        BoardLayout layout = new BoardLayout(boundaries.getWidth(), boundaries.getHeight(), boundaries.getTopLeft());
 
         for (LaidWord word : laidWords) {
             addWordToLayout(word, layout);

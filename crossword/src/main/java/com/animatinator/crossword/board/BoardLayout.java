@@ -12,11 +12,18 @@ public class BoardLayout {
 
     private int width;
     private int height;
+    private BoardPosition topLeft;
     private BoardTile[][] layout;
 
-    BoardLayout(int width, int height) {
+    /**
+     * @param width The width of the board
+     * @param height The height of the board
+     * @param topLeft The co-ordinates of the top-left tile of the board, to allow for negative locations
+     */
+    BoardLayout(int width, int height, BoardPosition topLeft) {
         this.width = width;
         this.height = height;
+        this.topLeft = topLeft;
         layout = createEmptyLayout(width, height);
     }
 
@@ -33,39 +40,50 @@ public class BoardLayout {
     }
 
     void setTile(BoardPosition position, String value) {
-        valueAt(position).setValue(value);
+        PositionAdjustedBoardPosition adjustedPosition = new PositionAdjustedBoardPosition(position, topLeft);
+        valueAt(adjustedPosition).setValue(value);
     }
 
     void markIntersection(BoardPosition position) {
-        valueAt(position).markAsIntersection();
+        PositionAdjustedBoardPosition adjustedBoardPosition = new PositionAdjustedBoardPosition(position, topLeft);
+        valueAt(adjustedBoardPosition).markAsIntersection();
     }
 
     public Optional<String> getAt(BoardPosition position) {
-        if (!isOnBoard(position)) {
+        PositionAdjustedBoardPosition adjustedPosition = new PositionAdjustedBoardPosition(position, topLeft);
+
+        if (!isOnBoard(adjustedPosition)) {
             throw new IllegalArgumentException("Requesting a position which isn't on the board!");
         }
-        return valueAt(position).getValue();
+        return valueAt(adjustedPosition).getValue();
     }
 
     boolean isIntersection(BoardPosition position) {
-        return isOnBoard(position) && valueAt(position).isIntersection();
+        PositionAdjustedBoardPosition adjustedPosition = new PositionAdjustedBoardPosition(position, topLeft);
+        return isOnBoard(adjustedPosition) && valueAt(adjustedPosition).isIntersection();
     }
 
-    private boolean isOnBoard(BoardPosition position) {
+    private boolean isOnBoard(PositionAdjustedBoardPosition position) {
         return position.x() >= 0 && position.x() < width && position.y() >= 0 && position.y() < height;
     }
 
-    private BoardTile valueAt(BoardPosition position) {
+    private BoardTile valueAt(PositionAdjustedBoardPosition position) {
         return layout[position.y()][position.x()];
     }
 
-    boolean isAdjacentToExistingIntersection(BoardPosition position) {for (int x = -1; x <= 1; x++) {
-        for (int y = -1; y <= 1; y++) {
-            if (isIntersection(position.withXOffset(x).withYOffset(y))) {
-                return true;
+    boolean isAdjacentToExistingIntersection(BoardPosition position) {
+        PositionAdjustedBoardPosition adjustedPosition = new PositionAdjustedBoardPosition(position, topLeft);
+        return isAdjacentToExistingIntersectionAfterAdjustment(adjustedPosition);
+    }
+
+    private boolean isAdjacentToExistingIntersectionAfterAdjustment(PositionAdjustedBoardPosition position) {
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                if (isIntersection(position.withXOffset(x).withYOffset(y))) {
+                    return true;
+                }
             }
         }
-    }
 
         return false;
     }
@@ -85,6 +103,7 @@ public class BoardLayout {
         }
         height = stringArray.length;
         width = stringArray[0].length;
+        topLeft = new BoardPosition(0, 0);
 
         layout = createLayoutArrayFromStringArray(stringArray);
     }
@@ -114,6 +133,7 @@ public class BoardLayout {
         BoardLayout that = (BoardLayout) o;
         return width == that.width &&
                 height == that.height &&
+                // TODO: should compare toplefts?
                 Arrays.deepEquals(layout, that.layout);
     }
 
@@ -163,6 +183,12 @@ public class BoardLayout {
         @Override
         public int hashCode() {
             return Objects.hash(isIntersection, value);
+        }
+    }
+
+    private static final class PositionAdjustedBoardPosition extends BoardPosition {
+        PositionAdjustedBoardPosition(BoardPosition basePosition, BoardPosition topLeft) {
+            super(basePosition.withXOffset(topLeft.x()).withYOffset(topLeft.y()));
         }
     }
 }

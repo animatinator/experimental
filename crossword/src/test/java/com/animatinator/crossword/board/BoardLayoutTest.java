@@ -14,7 +14,7 @@ public class BoardLayoutTest {
 
     @Test
     public void get_outOfRange() {
-        BoardLayout layout = new BoardLayout(1, 1);
+        BoardLayout layout = new BoardLayout(1, 1, new BoardPosition(0, 0));
         try {
             layout.getAt(new BoardPosition(2, 2));
         } catch (IllegalArgumentException expected) {
@@ -26,7 +26,7 @@ public class BoardLayoutTest {
 
     @Test
     public void adjacentIntersection() {
-        BoardLayout layout = new BoardLayout(10, 10);
+        BoardLayout layout = new BoardLayout(10, 10, new BoardPosition(0, 0));
         layout.markIntersection(new BoardPosition(1, 1));
 
         assertTrue(layout.isAdjacentToExistingIntersection(new BoardPosition(0, 0)));
@@ -42,7 +42,7 @@ public class BoardLayoutTest {
 
     @Test
     public void notAdjacentToIntersection() {
-        BoardLayout layout = new BoardLayout(10, 10);
+        BoardLayout layout = new BoardLayout(10, 10, new BoardPosition(0, 0));
         layout.markIntersection(new BoardPosition(1, 1));
 
         assertFalse(layout.isAdjacentToExistingIntersection(new BoardPosition(3, 2)));

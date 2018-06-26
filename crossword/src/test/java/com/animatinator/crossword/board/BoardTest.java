@@ -21,6 +21,9 @@ public class BoardTest {
   private Board simpleBoard;
   private BoardLayout simpleBoardLayout;
 
+  private Board negativeBoard;
+  private BoardLayout negativeBoardLayout;
+
   /**
    * test..
    * ...i..
@@ -34,12 +37,18 @@ public class BoardTest {
     simpleBoard.addWord("words", new BoardPosition(0, 2), Direction.HORIZONTAL);
     simpleBoard.addWord("tidy", new BoardPosition(3, 0), Direction.VERTICAL);
 
-    simpleBoardLayout = new BoardLayout(5, 4);
+    simpleBoardLayout = new BoardLayout(5, 4, new BoardPosition(0, 0));
     simpleBoardLayout.copyLayoutFromStringArray(new String[][] {
             {"t", "e", "s", "t", "."},
             {".", ".", ".", "i", "."},
             {"w", "o", "r", "d", "s"},
             {".", ".", ".", "y", "."},});
+
+    negativeBoard = new Board();
+    negativeBoard.addWord("negativity", new BoardPosition(-1, -1), Direction.HORIZONTAL);
+
+    negativeBoardLayout = new BoardLayout(10, 1, new BoardPosition(-1, -1));
+    negativeBoardLayout.copyLayoutFromStringArray(new String[][] {"negativity".split("")});
   }
 
   @Test
@@ -119,6 +128,11 @@ public class BoardTest {
   @Test
   public void getLayout() {
     assertEquals(simpleBoardLayout, simpleBoard.getLayout());
+  }
+
+  @Test
+  public void getLayout_negativePositions() {
+      assertEquals(negativeBoardLayout, negativeBoard.getLayout());
   }
 
   @Test
