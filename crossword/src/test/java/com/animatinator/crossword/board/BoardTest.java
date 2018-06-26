@@ -151,7 +151,6 @@ public class BoardTest {
 
   @Test
   public void getLayout_negativePositions() {
-      BoardLayout test = negativeBoard.getLayout();
       assertEquals(negativeBoardLayout, negativeBoard.getLayout());
   }
 
