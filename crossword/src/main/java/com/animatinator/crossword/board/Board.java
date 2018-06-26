@@ -78,7 +78,11 @@ public class Board {
     }
 
     Boundaries getBoundaries() {
-        int left = 0, right = 0, top = 0, bottom = 0;
+        if (laidWords.isEmpty()) {
+            return new Boundaries(new BoardPosition(0, 0), new BoardPosition(0, 0));
+        }
+
+        int left = Integer.MAX_VALUE, right = -Integer.MAX_VALUE, top = Integer.MAX_VALUE, bottom = -Integer.MAX_VALUE;
 
         for (LaidWord word : laidWords) {
             left = min(left, word.getTopLeft().x());

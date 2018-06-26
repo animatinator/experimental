@@ -49,6 +49,10 @@ public class BoardLayout {
         valueAt(adjustedBoardPosition).markAsIntersection();
     }
 
+    public BoardPosition getTopLeft() {
+        return topLeft;
+    }
+
     public Optional<String> getAt(BoardPosition position) {
         PositionAdjustedBoardPosition adjustedPosition = new PositionAdjustedBoardPosition(position, topLeft);
 
@@ -188,7 +192,7 @@ public class BoardLayout {
 
     private static final class PositionAdjustedBoardPosition extends BoardPosition {
         PositionAdjustedBoardPosition(BoardPosition basePosition, BoardPosition topLeft) {
-            super(basePosition.withXOffset(topLeft.x()).withYOffset(topLeft.y()));
+            super(basePosition.withXOffset(-topLeft.x()).withYOffset(-topLeft.y()));
         }
     }
 }

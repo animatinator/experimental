@@ -23,9 +23,13 @@ public class BoardPrinter {
         BoardLayout layout = board.getLayout();
         StringBuilder builder = new StringBuilder();
 
+        BoardPosition topLeft = layout.getTopLeft();
         for (int y = 0; y < layout.getHeight(); y++) {
             for (int x = 0; x < layout.getWidth(); x++) {
-                Optional<String> tileStringOptional = layout.getAt(new BoardPosition(x, y));
+                // TODO: This is a bit of a hack: we're offsetting the coordinates we pass in to account for the inverse
+                // offset the layout does internally.
+                Optional<String> tileStringOptional =
+                        layout.getAt(new BoardPosition(x, y).withXOffset(topLeft.x()).withYOffset(topLeft.y()));
                 String tileString = tileStringOptional.orElse(BoardLayout.EMPTY_SPACE);
                 builder.append(tileString);
             }

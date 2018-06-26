@@ -65,6 +65,15 @@ public class BoardTest {
   }
 
   @Test
+  public void emptyBoundaries() {
+      Board board = new Board();
+      Boundaries boundaries = board.getBoundaries();
+
+      assertEquals(new BoardPosition(0, 0), boundaries.getTopLeft());
+      assertEquals(new BoardPosition(0, 0), boundaries.getBottomRight());
+  }
+
+  @Test
   public void simpleBoundaries() {
     Board board = new Board();
     board.addWord("test", new BoardPosition(0, 0), Direction.HORIZONTAL);
@@ -79,6 +88,16 @@ public class BoardTest {
     Boundaries boundaries = simpleBoard.getBoundaries();
     assertEquals(new BoardPosition(0, 0), boundaries.getTopLeft());
     assertEquals(new BoardPosition(4, 3), boundaries.getBottomRight());
+  }
+
+  @Test
+  public void negativeBoundaries() {
+      Board board = new Board();
+      board.addWord("test", new BoardPosition(-5, -5), Direction.HORIZONTAL);
+
+      Boundaries boundaries = board.getBoundaries();
+      assertEquals(new BoardPosition(-5, -5), boundaries.getTopLeft());
+      assertEquals(new BoardPosition(-2, -5), boundaries.getBottomRight());
   }
 
   @Test
@@ -132,6 +151,7 @@ public class BoardTest {
 
   @Test
   public void getLayout_negativePositions() {
+      BoardLayout test = negativeBoard.getLayout();
       assertEquals(negativeBoardLayout, negativeBoard.getLayout());
   }
 
