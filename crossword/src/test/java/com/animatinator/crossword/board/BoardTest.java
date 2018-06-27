@@ -195,6 +195,8 @@ public class BoardTest {
       assertListsEqual(expected, attachments);
   }
 
+  // TODO: Cleaner testing that we can't add words adjacent to existing ones.
+
   @Test
   public void nonTrivialIntersectionCase() {
       Board board = new Board();
@@ -227,7 +229,22 @@ public class BoardTest {
       assertFalse(attachments.contains(new LaidWord("sea", new BoardPosition(2, 0), Direction.HORIZONTAL)));
   }
 
-  // TODO: Better testing that we can't add words adjacent to existing ones.
+  @Test
+  public void shouldNotSuggestWordAdjacentToExistingOne() {
+      // Simulate the below case (capital letters are the word attachment which shouldn't be suggested):
+      // ..c...
+      // ..a...
+      // caseS.
+      // ..e.E.
+      // ..seA.
+      Board board = new Board();
+      board.addWord("case", new BoardPosition(0, 2), Direction.HORIZONTAL);
+      board.addWord("cases", new BoardPosition(2, 0), Direction.VERTICAL);
+      board.addWord("sea", new BoardPosition(2, 4), Direction.HORIZONTAL);
+
+      List<LaidWord> attachments = board.getPossibleAttachmentPointsForWord("sea");
+      assertFalse(attachments.contains(new LaidWord("sea", new BoardPosition(4, 2), Direction.VERTICAL)));
+  }
 
   private void assertValueAtPositionEquals(BoardLayout layout, int x, int y, String expectedValue) {
     Optional<String> optionalValue = layout.getAt(new BoardPosition(x, y));
