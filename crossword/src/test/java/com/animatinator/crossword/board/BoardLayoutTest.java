@@ -29,15 +29,15 @@ public class BoardLayoutTest {
         BoardLayout layout = new BoardLayout(10, 10, new BoardPosition(0, 0));
         layout.markIntersection(new BoardPosition(1, 1));
 
-        assertTrue(layout.isAdjacentToExistingIntersection(new BoardPosition(0, 0)));
-        assertTrue(layout.isAdjacentToExistingIntersection(new BoardPosition(1, 0)));
-        assertTrue(layout.isAdjacentToExistingIntersection(new BoardPosition(2, 0)));
-        assertTrue(layout.isAdjacentToExistingIntersection(new BoardPosition(0, 1)));
-        assertTrue(layout.isAdjacentToExistingIntersection(new BoardPosition(1, 1)));
-        assertTrue(layout.isAdjacentToExistingIntersection(new BoardPosition(2, 1)));
-        assertTrue(layout.isAdjacentToExistingIntersection(new BoardPosition(0, 2)));
-        assertTrue(layout.isAdjacentToExistingIntersection(new BoardPosition(1, 2)));
-        assertTrue(layout.isAdjacentToExistingIntersection(new BoardPosition(2, 2)));
+        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(0, 0)));
+        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(1, 0)));
+        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(2, 0)));
+        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(0, 1)));
+        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(1, 1)));
+        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(2, 1)));
+        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(0, 2)));
+        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(1, 2)));
+        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(2, 2)));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class BoardLayoutTest {
         BoardLayout layout = new BoardLayout(10, 10, new BoardPosition(0, 0));
         layout.markIntersection(new BoardPosition(1, 1));
 
-        assertFalse(layout.isAdjacentToExistingIntersection(new BoardPosition(3, 2)));
+        assertFalse(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(3, 2)));
     }
 
 }

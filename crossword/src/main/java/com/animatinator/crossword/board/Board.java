@@ -44,25 +44,32 @@ public class Board {
             for (int i = 0; i < laidWord.getLength(); i++) {
                 String currentLetter = letters.get(i);
                 if (lettersInNewWord.contains(currentLetter)) {
-                    int xPos, yPos;
+                    BoardPosition newWordPosition, intersectionPosition;
 
+                    // This is the index within the to-be-added word of its intersection with the existing word to which
+                    // it's being attached.
+                    int wordIntersectionIndex = wordToAdd.indexOf(currentLetter.charAt(0));
+
+                    // TODO: This only adds matches for the first instance of a letter in a word.
                     if (laidWord.getDirection() == Direction.VERTICAL) {
-                        // TODO: This only adds matches for the first instance of a letter in a word.
-                        xPos = laidWord.getTopLeft().x() - wordToAdd.indexOf(currentLetter.charAt(0));
-                        yPos = laidWord.getTopLeft().y() + i;
+                        intersectionPosition = new BoardPosition(
+                                laidWord.getTopLeft().x(),
+                                laidWord.getTopLeft().y() + i);
+                        newWordPosition = intersectionPosition.withXOffset(-wordIntersectionIndex);
                     } else {
-                        xPos = laidWord.getTopLeft().x() + i;
-                        yPos = laidWord.getTopLeft().y() - wordToAdd.indexOf(currentLetter.charAt(0));
+                        intersectionPosition = new BoardPosition(
+                                laidWord.getTopLeft().x() + i,
+                                laidWord.getTopLeft().y());
+                        newWordPosition = intersectionPosition.withYOffset(-wordIntersectionIndex);
                     }
 
                     Direction direction =
                             (laidWord.getDirection() == Direction.VERTICAL) ? Direction.HORIZONTAL : Direction.VERTICAL;
 
-                    BoardPosition newAttachmentPosition = new BoardPosition(xPos, yPos);
-                    LaidWord possibleNewLaidWord = new LaidWord(wordToAdd, newAttachmentPosition, direction);
+                    LaidWord possibleNewLaidWord = new LaidWord(wordToAdd, new BoardPosition(newWordPosition), direction);
 
                     if (canWordBeAdded(possibleNewLaidWord)) {
-                        if (!currentBoardLayout.isAdjacentToExistingIntersection(newAttachmentPosition)) {
+                        if (!currentBoardLayout.isOnOrAdjacentToExistingIntersection(intersectionPosition)) {
                             attachmentPoints.add(possibleNewLaidWord);
                         }
                     }

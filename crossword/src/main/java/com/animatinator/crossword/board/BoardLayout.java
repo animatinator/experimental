@@ -75,12 +75,7 @@ public class BoardLayout {
         return layout[position.y()][position.x()];
     }
 
-    boolean isAdjacentToExistingIntersection(BoardPosition position) {
-        PositionAdjustedBoardPosition adjustedPosition = new PositionAdjustedBoardPosition(position, topLeft);
-        return isAdjacentToExistingIntersectionAfterAdjustment(adjustedPosition);
-    }
-
-    private boolean isAdjacentToExistingIntersectionAfterAdjustment(PositionAdjustedBoardPosition position) {
+    boolean isOnOrAdjacentToExistingIntersection(BoardPosition position) {
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 if (isIntersection(position.withXOffset(x).withYOffset(y))) {

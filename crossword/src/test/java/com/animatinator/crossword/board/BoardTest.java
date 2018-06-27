@@ -12,9 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class BoardTest {
@@ -200,18 +198,36 @@ public class BoardTest {
   @Test
   public void nonTrivialIntersectionCase() {
       Board board = new Board();
-      board.addWord("caused", new BoardPosition(0, 2), Direction.HORIZONTAL);
-      board.addWord("cause", new BoardPosition(0, 2), Direction.VERTICAL);
-      board.addWord("sauce", new BoardPosition(2, 0), Direction.VERTICAL);
+      board.addWord("caused", new BoardPosition(0, 0), Direction.HORIZONTAL);
+      board.addWord("cause", new BoardPosition(0, 0), Direction.VERTICAL);
+      board.addWord("sauce", new BoardPosition(2, -2), Direction.VERTICAL);
 
-      try {
-          board.addWord("aces", new BoardPosition(1, 2), Direction.VERTICAL);
-      } catch(IllegalArgumentException expected) {
-          return;
-      }
-
-      fail("Shouldn't have been allowed to place a word so close to existing ones.");
+      BoardLayout layout = board.getLayout();
+      assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(1, 0)));
   }
+
+  @Test
+  public void nonTrivialIntersectionCase_shouldNotSuggestAttachment() {
+      Board board = new Board();
+      board.addWord("caused", new BoardPosition(0, 0), Direction.HORIZONTAL);
+      board.addWord("cause", new BoardPosition(0, 0), Direction.VERTICAL);
+      board.addWord("sauce", new BoardPosition(2, -2), Direction.VERTICAL);
+
+      List<LaidWord> attachments = board.getPossibleAttachmentPointsForWord("aces");
+      assertFalse(attachments.contains(new LaidWord("aces", new BoardPosition(1, 0), Direction.VERTICAL)));
+  }
+
+  @Test
+  public void shouldNotSuggestAttachmentContinuingExistingWord() {
+      Board board = new Board();
+      board.addWord("sea", new BoardPosition(0, 0), Direction.HORIZONTAL);
+      board.addWord("amaze", new BoardPosition(2, 0), Direction.VERTICAL);
+
+      List<LaidWord> attachments = board.getPossibleAttachmentPointsForWord("sea");
+      assertFalse(attachments.contains(new LaidWord("sea", new BoardPosition(2, 0), Direction.HORIZONTAL)));
+  }
+
+  // TODO: Better testing that we can't add words adjacent to existing ones.
 
   private void assertValueAtPositionEquals(BoardLayout layout, int x, int y, String expectedValue) {
     Optional<String> optionalValue = layout.getAt(new BoardPosition(x, y));
