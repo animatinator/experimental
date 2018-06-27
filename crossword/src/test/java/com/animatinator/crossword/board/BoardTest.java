@@ -197,6 +197,22 @@ public class BoardTest {
       assertListsEqual(expected, attachments);
   }
 
+  @Test
+  public void nonTrivialIntersectionCase() {
+      Board board = new Board();
+      board.addWord("caused", new BoardPosition(0, 2), Direction.HORIZONTAL);
+      board.addWord("cause", new BoardPosition(0, 2), Direction.VERTICAL);
+      board.addWord("sauce", new BoardPosition(2, 0), Direction.VERTICAL);
+
+      try {
+          board.addWord("aces", new BoardPosition(1, 2), Direction.VERTICAL);
+      } catch(IllegalArgumentException expected) {
+          return;
+      }
+
+      fail("Shouldn't have been allowed to place a word so close to existing ones.");
+  }
+
   private void assertValueAtPositionEquals(BoardLayout layout, int x, int y, String expectedValue) {
     Optional<String> optionalValue = layout.getAt(new BoardPosition(x, y));
     assertTrue(optionalValue.isPresent());
