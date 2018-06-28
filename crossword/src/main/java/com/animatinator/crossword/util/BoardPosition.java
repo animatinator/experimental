@@ -32,6 +32,18 @@ public class BoardPosition {
         return new BoardPosition(x, y + offset);
     }
 
+    public BoardPosition withOffset(BoardPosition offset) {
+        return new BoardPosition(x + offset.x, y + offset.y);
+    }
+
+    public BoardPosition negative() {
+        return new BoardPosition(-x, -y);
+    }
+
+    public BoardPosition multiply(int factor) {
+        return new BoardPosition(x * factor, y * factor);
+    }
+
     @Override
     public String toString() {
         return String.format("BoardPosition(%d, %d)", x, y);

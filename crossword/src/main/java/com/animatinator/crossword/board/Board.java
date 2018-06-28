@@ -70,7 +70,9 @@ public class Board {
 
                     if (canWordBeAdded(possibleNewLaidWord)) {
                         if (!currentBoardLayout.isOnOrAdjacentToExistingIntersection(intersectionPosition)) {
-                            attachmentPoints.add(possibleNewLaidWord);
+                            if (!currentBoardLayout.isAdjacentToExistingWord(possibleNewLaidWord)) {
+                                attachmentPoints.add(possibleNewLaidWord);
+                            }
                         }
                     }
                 }

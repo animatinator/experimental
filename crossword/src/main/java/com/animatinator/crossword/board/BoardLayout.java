@@ -1,6 +1,8 @@
 package com.animatinator.crossword.board;
 
+import com.animatinator.crossword.board.words.LaidWord;
 import com.animatinator.crossword.util.BoardPosition;
+import com.animatinator.crossword.util.Direction;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -60,6 +62,39 @@ public class BoardLayout {
             throw new IllegalArgumentException("Requesting a position which isn't on the board!");
         }
         return valueAt(adjustedPosition).getValue();
+    }
+
+    // TODO test this
+    boolean isAdjacentToExistingWord(LaidWord possibleWord) {
+        BoardPosition parallel, perpendicular;
+
+        if (possibleWord.getDirection() == Direction.HORIZONTAL) {
+            parallel = new BoardPosition(1, 0);
+            perpendicular = new BoardPosition(0, 1);
+        } else {
+            parallel = new BoardPosition(0, 1);
+            perpendicular = new BoardPosition(1, 0);
+        }
+
+        if (holdsLetter(possibleWord.getTopLeft().withOffset(parallel.negative()))) {
+            return true;
+        } else if (holdsLetter(possibleWord.getBottomRight().withOffset(parallel))) {
+            return true;
+        }
+
+        for (int i = 0; i < possibleWord.getLength(); i++) {
+            BoardPosition positionOfLetter = possibleWord.getTopLeft().withOffset(parallel.multiply(i));
+            if (!holdsLetter(positionOfLetter)) {
+                return (holdsLetter(positionOfLetter.withOffset(perpendicular)) || holdsLetter(positionOfLetter.withOffset(perpendicular.negative())));
+            }
+        }
+
+        return false;
+    }
+
+    private boolean holdsLetter(BoardPosition boardPosition) {
+        PositionAdjustedBoardPosition adjustedPosition = new PositionAdjustedBoardPosition(boardPosition, topLeft);
+        return isOnBoard(adjustedPosition) && valueAt(adjustedPosition).getValue().isPresent();
     }
 
     boolean isIntersection(BoardPosition position) {
@@ -185,6 +220,8 @@ public class BoardLayout {
         }
     }
 
+    // TODO: Don't subclass BoardPosition, instead make both classes subclass a common class so they're completely
+    // incompatible. Nothing should use the base class, just one of the subclasses.
     private static final class PositionAdjustedBoardPosition extends BoardPosition {
         PositionAdjustedBoardPosition(BoardPosition basePosition, BoardPosition topLeft) {
             super(basePosition.withXOffset(-topLeft.x()).withYOffset(-topLeft.y()));

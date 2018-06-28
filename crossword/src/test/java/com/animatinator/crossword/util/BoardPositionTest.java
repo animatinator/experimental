@@ -23,6 +23,25 @@ public class BoardPositionTest {
     }
 
     @Test
+    public void addOffset() {
+        BoardPosition position = new BoardPosition(1, 2);
+        BoardPosition adjusted = position.withOffset(new BoardPosition(3, 4));
+        assertEquals(new BoardPosition(4, 6), adjusted);
+    }
+
+    @Test
+    public void negative() {
+        BoardPosition position = new BoardPosition(1, 2);
+        assertEquals(new BoardPosition(-1, -2), position.negative());
+    }
+
+    @Test
+    public void multiply() {
+        BoardPosition position = new BoardPosition(1, 2);
+        assertEquals(new BoardPosition(3, 6), position.multiply(3));
+    }
+
+    @Test
     public void immutable() {
         BoardPosition position = new BoardPosition(1, 2);
         position.withXOffset(3);
