@@ -44,7 +44,7 @@ public class Board {
             for (int i = 0; i < laidWord.getLength(); i++) {
                 String currentLetter = letters.get(i);
                 if (lettersInNewWord.contains(currentLetter)) {
-                    BoardPosition newWordPosition, intersectionPosition;
+                    BoardPosition newWordPosition;
 
                     // This is the index within the to-be-added word of its intersection with the existing word to which
                     // it's being attached.
@@ -52,15 +52,13 @@ public class Board {
 
                     // TODO: This only adds matches for the first instance of a letter in a word.
                     if (laidWord.getDirection() == Direction.VERTICAL) {
-                        intersectionPosition = new BoardPosition(
-                                laidWord.getTopLeft().x(),
+                        newWordPosition = new BoardPosition(
+                                laidWord.getTopLeft().x() - wordIntersectionIndex,
                                 laidWord.getTopLeft().y() + i);
-                        newWordPosition = intersectionPosition.withXOffset(-wordIntersectionIndex);
                     } else {
-                        intersectionPosition = new BoardPosition(
+                        newWordPosition = new BoardPosition(
                                 laidWord.getTopLeft().x() + i,
-                                laidWord.getTopLeft().y());
-                        newWordPosition = intersectionPosition.withYOffset(-wordIntersectionIndex);
+                                laidWord.getTopLeft().y() - wordIntersectionIndex);
                     }
 
                     Direction direction =
@@ -121,15 +119,15 @@ public class Board {
         for (int i = 0; i < word.getLength(); i++) {
             BoardPosition current = new BoardPosition(startPos.x() + xDirection * i, startPos.y() + yDirection * i);
             Optional<String> valueAtCurrent = layout.getAt(current);
+
             if (valueAtCurrent.isPresent()) {
                 // Throw if this word clashes. We should have prevented this elsewhere though.
                 if (!valueAtCurrent.get().equals(characters.get(i))) {
                     throw new IllegalArgumentException("Can't add word '"+ word.getWord()+"' because it clashes on character "+characters.get(i));
                 }
             }
-            layout.setTile(
-                    current,
-                    characters.get(i));
+
+            layout.setTile(current, characters.get(i));
         }
     }
 
