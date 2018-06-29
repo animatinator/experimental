@@ -25,7 +25,7 @@ public class BoardPositionTest {
     @Test
     public void addOffset() {
         BoardPosition position = new BoardPosition(1, 2);
-        BoardPosition adjusted = position.withOffset(new BoardPosition(3, 4));
+        BoardPosition adjusted = position.withOffset(new BoardOffset(3, 4));
         assertEquals(new BoardPosition(4, 6), adjusted);
     }
 

@@ -1,8 +1,10 @@
 package com.animatinator.crossword.board;
 
 import com.animatinator.crossword.board.words.LaidWord;
+import com.animatinator.crossword.util.BoardOffset;
 import com.animatinator.crossword.util.BoardPosition;
 import com.animatinator.crossword.util.Direction;
+import com.animatinator.crossword.util.Vector2d;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -66,14 +68,14 @@ public class BoardLayout {
 
     // TODO test this
     boolean isAdjacentToExistingWord(LaidWord possibleWord) {
-        BoardPosition parallel, perpendicular;
+        BoardOffset parallel, perpendicular;
 
         if (possibleWord.getDirection() == Direction.HORIZONTAL) {
-            parallel = new BoardPosition(1, 0);
-            perpendicular = new BoardPosition(0, 1);
+            parallel = new BoardOffset(1, 0);
+            perpendicular = new BoardOffset(0, 1);
         } else {
-            parallel = new BoardPosition(0, 1);
-            perpendicular = new BoardPosition(1, 0);
+            parallel = new BoardOffset(0, 1);
+            perpendicular = new BoardOffset(1, 0);
         }
 
         if (holdsLetter(possibleWord.getTopLeft().withOffset(parallel.negative()))) {
@@ -220,11 +222,14 @@ public class BoardLayout {
         }
     }
 
-    // TODO: Don't subclass BoardPosition, instead make both classes subclass a common class so they're completely
-    // incompatible. Nothing should use the base class, just one of the subclasses.
-    private static final class PositionAdjustedBoardPosition extends BoardPosition {
+    static final class PositionAdjustedBoardPosition extends Vector2d {
         PositionAdjustedBoardPosition(BoardPosition basePosition, BoardPosition topLeft) {
             super(basePosition.withXOffset(-topLeft.x()).withYOffset(-topLeft.y()));
+        }
+
+        @Override
+        public String toString() {
+            return String.format("PositionAdjustedBoardPosition(%d, %d)", x, y);
         }
     }
 }

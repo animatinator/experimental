@@ -2,6 +2,7 @@ package com.animatinator.crossword.print;
 
 import com.animatinator.crossword.board.Board;
 import com.animatinator.crossword.board.BoardLayout;
+import com.animatinator.crossword.util.BoardOffset;
 import com.animatinator.crossword.util.BoardPosition;
 
 import java.util.Optional;
@@ -29,7 +30,7 @@ public class BoardPrinter {
                 // TODO: This is a bit of a hack: we're offsetting the coordinates we pass in to account for the inverse
                 // offset the layout does internally.
                 Optional<String> tileStringOptional =
-                        layout.getAt(new BoardPosition(x, y).withXOffset(topLeft.x()).withYOffset(topLeft.y()));
+                        layout.getAt(new BoardPosition(x, y).withOffset(new BoardOffset(topLeft)));
                 String tileString = tileStringOptional.orElse(BoardLayout.EMPTY_SPACE);
                 builder.append(tileString);
             }
