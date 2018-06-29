@@ -121,16 +121,6 @@ public class BoardTest {
   }
 
   @Test
-  public void intersectionMarkedCorrectly() {
-    Board board = new Board();
-    board.addWord("patter", new BoardPosition(1, 2), Direction.HORIZONTAL);
-    board.addWord("test", new BoardPosition(3, 2), Direction.VERTICAL);
-    BoardLayout layout = board.getLayout();
-    assertValueAtPositionEquals(layout, 3, 2, "t");
-    assertTrue(layout.isIntersection(new BoardPosition(3, 2)));
-  }
-
-  @Test
   public void badIntersectionDenied() {
       Board board = new Board();
       board.addWord("patter", new BoardPosition(1, 2), Direction.HORIZONTAL);
@@ -195,17 +185,6 @@ public class BoardTest {
   }
 
   // TODO: Cleaner testing that we can't add words adjacent to existing ones.
-
-  @Test
-  public void nonTrivialIntersectionCase() {
-      Board board = new Board();
-      board.addWord("caused", new BoardPosition(0, 0), Direction.HORIZONTAL);
-      board.addWord("cause", new BoardPosition(0, 0), Direction.VERTICAL);
-      board.addWord("sauce", new BoardPosition(2, -2), Direction.VERTICAL);
-
-      BoardLayout layout = board.getLayout();
-      assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(1, 0)));
-  }
 
   @Test
   public void nonTrivialIntersectionCase_shouldNotSuggestAttachment() {

@@ -48,11 +48,6 @@ public class BoardLayout {
         valueAt(adjustedPosition).setValue(value);
     }
 
-    void markIntersection(BoardPosition position) {
-        PositionAdjustedBoardPosition adjustedBoardPosition = new PositionAdjustedBoardPosition(position, topLeft);
-        valueAt(adjustedBoardPosition).markAsIntersection();
-    }
-
     public BoardPosition getTopLeft() {
         return topLeft;
     }
@@ -66,7 +61,7 @@ public class BoardLayout {
         return valueAt(adjustedPosition).getValue();
     }
 
-    // TODO test this
+    // TODO test this!
     boolean isAdjacentToExistingWord(LaidWord possibleWord) {
         BoardOffset parallel, perpendicular;
 
@@ -99,29 +94,12 @@ public class BoardLayout {
         return isOnBoard(adjustedPosition) && valueAt(adjustedPosition).getValue().isPresent();
     }
 
-    boolean isIntersection(BoardPosition position) {
-        PositionAdjustedBoardPosition adjustedPosition = new PositionAdjustedBoardPosition(position, topLeft);
-        return isOnBoard(adjustedPosition) && valueAt(adjustedPosition).isIntersection();
-    }
-
     private boolean isOnBoard(PositionAdjustedBoardPosition position) {
         return position.x() >= 0 && position.x() < width && position.y() >= 0 && position.y() < height;
     }
 
     private BoardTile valueAt(PositionAdjustedBoardPosition position) {
         return layout[position.y()][position.x()];
-    }
-
-    boolean isOnOrAdjacentToExistingIntersection(BoardPosition position) {
-        for (int x = -1; x <= 1; x++) {
-            for (int y = -1; y <= 1; y++) {
-                if (isIntersection(position.withXOffset(x).withYOffset(y))) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     public int getWidth() {
@@ -185,7 +163,6 @@ public class BoardLayout {
      * more easily check validities of new intersections.
      */
     private static final class BoardTile {
-        private boolean isIntersection;
         @Nullable
         private String value;
 
@@ -193,16 +170,8 @@ public class BoardLayout {
             this.value = value;
         }
 
-        void markAsIntersection() {
-            isIntersection = true;
-        }
-
         Optional<String> getValue() {
             return Optional.ofNullable(value);
-        }
-
-        boolean isIntersection() {
-            return isIntersection;
         }
 
         @Override
@@ -218,7 +187,7 @@ public class BoardLayout {
 
         @Override
         public int hashCode() {
-            return Objects.hash(isIntersection, value);
+            return Objects.hash(value);
         }
     }
 

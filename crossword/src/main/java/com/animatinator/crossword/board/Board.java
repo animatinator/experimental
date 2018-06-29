@@ -69,10 +69,8 @@ public class Board {
                     LaidWord possibleNewLaidWord = new LaidWord(wordToAdd, new BoardPosition(newWordPosition), direction);
 
                     if (canWordBeAdded(possibleNewLaidWord)) {
-                        if (!currentBoardLayout.isOnOrAdjacentToExistingIntersection(intersectionPosition)) {
-                            if (!currentBoardLayout.isAdjacentToExistingWord(possibleNewLaidWord)) {
-                                attachmentPoints.add(possibleNewLaidWord);
-                            }
+                        if (!currentBoardLayout.isAdjacentToExistingWord(possibleNewLaidWord)) {
+                            attachmentPoints.add(possibleNewLaidWord);
                         }
                     }
                 }
@@ -128,7 +126,6 @@ public class Board {
                 if (!valueAtCurrent.get().equals(characters.get(i))) {
                     throw new IllegalArgumentException("Can't add word '"+ word.getWord()+"' because it clashes on character "+characters.get(i));
                 }
-                layout.markIntersection(current);
             }
             layout.setTile(
                     current,

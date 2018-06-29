@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(JUnit4.class)
@@ -22,30 +20,6 @@ public class BoardLayoutTest {
         }
 
         fail("Should have thrown IllegalArgumentException when getting out of range.");
-    }
-
-    @Test
-    public void adjacentIntersection() {
-        BoardLayout layout = new BoardLayout(10, 10, new BoardPosition(0, 0));
-        layout.markIntersection(new BoardPosition(1, 1));
-
-        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(0, 0)));
-        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(1, 0)));
-        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(2, 0)));
-        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(0, 1)));
-        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(1, 1)));
-        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(2, 1)));
-        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(0, 2)));
-        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(1, 2)));
-        assertTrue(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(2, 2)));
-    }
-
-    @Test
-    public void notAdjacentToIntersection() {
-        BoardLayout layout = new BoardLayout(10, 10, new BoardPosition(0, 0));
-        layout.markIntersection(new BoardPosition(1, 1));
-
-        assertFalse(layout.isOnOrAdjacentToExistingIntersection(new BoardPosition(3, 2)));
     }
 
 }
