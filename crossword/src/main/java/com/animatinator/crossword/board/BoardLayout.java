@@ -20,8 +20,8 @@ public class BoardLayout {
     private BoardTile[][] layout;
 
     /**
-     * @param width The width of the board
-     * @param height The height of the board
+     * @param width   The width of the board
+     * @param height  The height of the board
      * @param topLeft The co-ordinates of the top-left tile of the board, to allow for negative locations
      */
     BoardLayout(int width, int height, BoardPosition topLeft) {
@@ -33,7 +33,8 @@ public class BoardLayout {
 
     /**
      * Constructs a {@link BoardLayout} with its top-left corner at (0, 0).
-     * @param width The width of the board
+     *
+     * @param width  The width of the board
      * @param height The height of the board
      */
     BoardLayout(int width, int height) {

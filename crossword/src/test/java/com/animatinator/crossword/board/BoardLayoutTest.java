@@ -17,7 +17,7 @@ public class BoardLayoutTest {
     @Test
     public void get() {
         BoardLayout layout = new BoardLayout(4, 4);
-        layout.copyLayoutFromStringArray(new String[][] {
+        layout.copyLayoutFromStringArray(new String[][]{
                 ".....".split(""),
                 ".....".split(""),
                 "...s.".split("")
@@ -30,7 +30,7 @@ public class BoardLayoutTest {
     @Test
     public void get_adjustForOffset() {
         BoardLayout layout = new BoardLayout(4, 4, new BoardPosition(1, 1));
-        layout.copyLayoutFromStringArray(new String[][] {
+        layout.copyLayoutFromStringArray(new String[][]{
                 ".....".split(""),
                 ".....".split(""),
                 "...s.".split("")
