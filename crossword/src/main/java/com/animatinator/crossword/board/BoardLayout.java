@@ -91,8 +91,14 @@ public class BoardLayout {
 
         for (int i = 0; i < possibleWord.getLength(); i++) {
             BoardPosition positionOfLetter = possibleWord.getTopLeft().withOffset(parallel.multiply(i));
+            // If this point along the word isn't on top of an existing word (ie. this isn't a point of intersection
+            // with an existing word), then we check the tiles on either side of it. If either of them is on top of an
+            // existing word, the word we're trying to place lies adjacent to an existing word.
             if (!holdsLetter(positionOfLetter)) {
-                return (holdsLetter(positionOfLetter.withOffset(perpendicular)) || holdsLetter(positionOfLetter.withOffset(perpendicular.negative())));
+                if (holdsLetter(positionOfLetter.withOffset(perpendicular))
+                        || holdsLetter(positionOfLetter.withOffset(perpendicular.negative()))) {
+                    return true;
+                }
             }
         }
 

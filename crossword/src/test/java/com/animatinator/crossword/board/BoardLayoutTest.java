@@ -182,9 +182,22 @@ public class BoardLayoutTest {
         assertTrue(layout.isAdjacentToExistingWord(wordToLay));
     }
 
-    // TODO suspicion: additions that don't fully fit on the existing layout aren't handled properly. Test specifically.
+    /**
+     * A word whose position lies outside the existing board should still be detected if it is next to an existing word.
+     */
+    @Test
+    public void isAdjacentToExistingWord_wordComesFromOutsideBoard() {
+        BoardLayout layout = new BoardLayout(5, 1);
+        layout.copyLayoutFromStringArray(new String[][]{
+                "pie".split("")
+        });
+        LaidWord wordToLay = new LaidWord("eel", new BoardPosition(-1, -1), Direction.HORIZONTAL);
+        assertTrue(layout.isAdjacentToExistingWord(wordToLay));
+    }
 
-    // TODO: Use this to debug the generation in https://pastebin.com/HmEB57w0. This is a rough recreation.
+    /**
+     * A rough recreation of the problematic generation step in https://pastebin.com/HmEB57w0, used to fix that bug.
+     */
     @Test
     public void isAdjacentToExistingWord_horizontalMerge() {
         BoardLayout layout = new BoardLayout(0, 0);
@@ -197,7 +210,9 @@ public class BoardLayoutTest {
         assertTrue(layout.isAdjacentToExistingWord(wordToLay));
     }
 
-    // TODO: Use this to debug the generation at https://pastebin.com/eQQKRquc.
+    /**
+     * A recreation of the problematic generation step in https://pastebin.com/eQQKRquc, used to fix that bug.
+     */
     @Test
     public void isAdjacentToExistingWord_verticalMerge() {
         BoardLayout layout = new BoardLayout(6, 7);

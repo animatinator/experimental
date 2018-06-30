@@ -180,11 +180,10 @@ public class BoardTest {
 
         List<LaidWord> expected = new ArrayList<>();
         expected.add(new LaidWord("test", new BoardPosition(5, 1), Direction.VERTICAL));
-        expected.add(new LaidWord("test", new BoardPosition(3, 2), Direction.VERTICAL));
         expected.add(new LaidWord("test", new BoardPosition(3, 5), Direction.VERTICAL));
         // This is the interesting one: the proposed attachment with 'patter' also intersects with 'sat', but in a legal
         // way.
-        expected.add(new LaidWord("test", new BoardPosition(4, 2), Direction.VERTICAL));
+        expected.add(new LaidWord("test", new BoardPosition(3, 2), Direction.VERTICAL));
 
         List<LaidWord> attachments = board.getPossibleAttachmentPointsForWord("test");
         assertListsEqual(expected, attachments);
