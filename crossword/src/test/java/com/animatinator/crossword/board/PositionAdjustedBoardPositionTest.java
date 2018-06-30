@@ -13,9 +13,9 @@ public class PositionAdjustedBoardPositionTest {
     @Test
     public void positionAdjustsCorrectly() {
         BoardPosition basePosition = new BoardPosition(1, 2);
-        BoardPosition offsfet = new BoardPosition(-10, -10);
+        BoardPosition offset = new BoardPosition(-10, -10);
         BoardLayout.PositionAdjustedBoardPosition adjustedPosition =
-                new BoardLayout.PositionAdjustedBoardPosition(basePosition, offsfet);
+                new BoardLayout.PositionAdjustedBoardPosition(basePosition, offset);
         assertEquals(new Vector2d(11, 12), adjustedPosition);
     }
 }

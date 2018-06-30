@@ -31,6 +31,15 @@ public class BoardLayout {
         layout = createEmptyLayout(width, height);
     }
 
+    /**
+     * Constructs a {@link BoardLayout} with its top-left corner at (0, 0).
+     * @param width The width of the board
+     * @param height The height of the board
+     */
+    BoardLayout(int width, int height) {
+        this(width, height, new BoardPosition(0, 0));
+    }
+
     private BoardTile[][] createEmptyLayout(int width, int height) {
         BoardTile[][] emptyLayout = new BoardTile[height][width];
 
@@ -117,7 +126,6 @@ public class BoardLayout {
         }
         height = stringArray.length;
         width = stringArray[0].length;
-        topLeft = new BoardPosition(0, 0);
 
         layout = createLayoutArrayFromStringArray(stringArray);
     }
