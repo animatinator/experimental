@@ -21,11 +21,24 @@ public class BoardGenerationFlags {
         setFlag(BoardGenerationFlagConstant.RANDOM_INITIAL_ORIENTATION, true);
     }
 
-    void setFlag(BoardGenerationFlagConstant flag, boolean value) {
+    public void setFlag(BoardGenerationFlagConstant flag, boolean value) {
         flagValues.put(flag.ordinal(), value);
     }
 
     boolean getFlag(BoardGenerationFlagConstant flag) {
         return flagValues.get(flag.ordinal());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("{ ");
+        for (BoardGenerationFlagConstant constant : BoardGenerationFlagConstant.values()) {
+            if (getFlag(constant)) {
+                builder.append(constant.name());
+                builder.append(", ");
+            }
+        }
+        builder.append("}");
+        return builder.toString();
     }
 }

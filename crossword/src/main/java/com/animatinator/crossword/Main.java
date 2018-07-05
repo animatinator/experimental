@@ -2,6 +2,7 @@ package com.animatinator.crossword;
 
 import com.animatinator.crossword.board.Board;
 import com.animatinator.crossword.evaluate.SimpleBoardEvaluator;
+import com.animatinator.crossword.generate.BoardGenerationFlagConstant;
 import com.animatinator.crossword.generate.BoardGenerationFlags;
 import com.animatinator.crossword.generate.BoardGenerator;
 import com.animatinator.crossword.print.BoardPrinter;
@@ -15,9 +16,19 @@ public class Main {
             "caused"};
 
     public static void main(String[] args) {
-        BoardGenerator generator = new BoardGenerator(new SimpleBoardEvaluator(), new BoardGenerationFlags());
+        BoardGenerationFlags flags = setUpFlags();
+        BoardGenerator generator = new BoardGenerator(new SimpleBoardEvaluator(), flags);
         Board board = generator.generateBoard(Arrays.asList(words));
         BoardPrinter printer = new BoardPrinter(new SystemOutPrinter());
         printer.printBoard(board);
+    }
+
+    private static BoardGenerationFlags setUpFlags() {
+        BoardGenerationFlags flags = new BoardGenerationFlags();
+
+        flags.setFlag(BoardGenerationFlagConstant.PICK_RANDOMLY_FROM_BEST_FEW_WORD_PLACEMENTS, true);
+        flags.setFlag(BoardGenerationFlagConstant.GENERATE_SEVERAL_BOARDS, true);
+
+        return flags;
     }
 }
