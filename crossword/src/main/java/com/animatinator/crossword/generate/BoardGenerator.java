@@ -3,6 +3,8 @@ package com.animatinator.crossword.generate;
 import com.animatinator.crossword.board.Board;
 import com.animatinator.crossword.board.BoardLayout;
 import com.animatinator.crossword.board.words.LaidWord;
+import com.animatinator.crossword.print.BoardPrinter;
+import com.animatinator.crossword.print.SystemOutPrinter;
 import com.animatinator.crossword.util.BoardPosition;
 import com.animatinator.crossword.util.Direction;
 
@@ -38,6 +40,12 @@ public class BoardGenerator {
             // Pick the 'best' board.
             sortByQuality(possibleBoards);
             board = possibleBoards.get(0);
+            // TODO: This is temporary debug logging; clean up or remove.
+            double rating = evaluateBoard(board);
+            System.out.println("Board with rating: "+rating);
+            System.out.println("Word count: "+board.getLaidWords().size());
+            new BoardPrinter(new SystemOutPrinter()).printBoard(board);
+            System.out.println();
         }
 
         return board;
@@ -53,8 +61,19 @@ public class BoardGenerator {
 
     private double evaluateBoard(Board board) {
         BoardLayout layout = board.getLayout();
-        double sizeRatio = layout.getWidth() / layout.getHeight();
-        if (sizeRatio > 1.0) sizeRatio = (1.0d / sizeRatio);
+        double aspectRatio = getAspectRatio(layout);
+        double longestSide = getLongestSide(layout);
+        double numWords = board.getLaidWords().size();
+        return numWords / (longestSide * aspectRatio);
+    }
+
+    private double getAspectRatio(BoardLayout layout) {
+        double sizeRatio = (double)layout.getWidth() / (double)layout.getHeight();
+        if (sizeRatio < 1.0) sizeRatio = (1.0d / sizeRatio);
         return sizeRatio;
+    }
+
+    private double getLongestSide(BoardLayout layout) {
+        return Math.max(layout.getWidth(), layout.getHeight());
     }
 }

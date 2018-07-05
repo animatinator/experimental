@@ -78,6 +78,10 @@ public class Board {
         return attachmentPoints;
     }
 
+    public List<LaidWord> getLaidWords() {
+        return laidWords;
+    }
+
     public BoardLayout getLayout() {
         return recomputeLayout();
     }
