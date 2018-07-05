@@ -44,7 +44,17 @@ public class BoardGenerator {
 
             // Pick the 'best' board.
             sortByQuality(possibleBoards);
-            board = possibleBoards.get(0);
+
+            if (flags.getFlag(BoardGenerationFlagConstant.PICK_RANDOMLY_FROM_BEST_FEW_WORD_PLACEMENTS)) {
+                // Pick randomly from the top 50% of possible boards.
+                int limitingIndex = (int) ((double) possibleBoards.size() * 0.5d);
+                // Make sure the limiting index is at least one.
+                limitingIndex = Math.max(limitingIndex, 1);
+                int indexToPick = randomGenerator.nextInt(limitingIndex);
+                board = possibleBoards.get(indexToPick);
+            } else {
+                board = possibleBoards.get(0);
+            }
         }
 
         return board;
