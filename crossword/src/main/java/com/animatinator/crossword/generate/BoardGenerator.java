@@ -10,6 +10,7 @@ import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class BoardGenerator {
+    private static final int BOARDS_TO_GENERATE = 10;
     private static final Random randomGenerator = new Random();
 
     private final BoardEvaluator boardEvaluator;
@@ -20,8 +21,28 @@ public class BoardGenerator {
         this.flags = flags;
     }
 
-    // TODO: This is a very rough sketch, with many holes and errors.
     public Board generateBoard(List<String> possibleWords) {
+        if (flags.getFlag(BoardGenerationFlagConstant.GENERATE_SEVERAL_BOARDS)) {
+            Board bestBoard = null;
+            double bestFitness = -1.0d;
+
+            for (int i = 0; i < BOARDS_TO_GENERATE; i++) {
+                Board newBoard = generateOneBoard(possibleWords);
+                double fitness = boardEvaluator.evaluateBoard(newBoard);
+
+                if (fitness > bestFitness) {
+                    bestFitness = fitness;
+                    bestBoard = newBoard;
+                }
+            }
+
+            return bestBoard;
+        }
+        return generateOneBoard(possibleWords);
+    }
+
+    // TODO: This is a very rough sketch, with many holes and errors.
+    private Board generateOneBoard(List<String> possibleWords) {
         sortByLengthDescending(possibleWords);
         Queue<String> wordQueue= new LinkedBlockingQueue<>(possibleWords);
 

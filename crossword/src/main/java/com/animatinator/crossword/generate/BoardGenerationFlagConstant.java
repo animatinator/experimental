@@ -7,4 +7,6 @@ public enum BoardGenerationFlagConstant {
     UNUSED_TEST_FLAG,
     // When laying a word, pick randomly from several of the top options rather than just the best.
     PICK_RANDOMLY_FROM_BEST_FEW_WORD_PLACEMENTS,
+    // Generate a series of boards and pick the best one.
+    GENERATE_SEVERAL_BOARDS,
 }
