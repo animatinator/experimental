@@ -1,8 +1,8 @@
 package com.animatinator.crossword.generate;
 
 import com.animatinator.crossword.board.Board;
-import com.animatinator.crossword.board.BoardLayout;
 import com.animatinator.crossword.board.words.LaidWord;
+import com.animatinator.crossword.evaluate.BoardEvaluator;
 import com.animatinator.crossword.print.BoardPrinter;
 import com.animatinator.crossword.print.SystemOutPrinter;
 import com.animatinator.crossword.util.BoardPosition;
@@ -15,6 +15,12 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class BoardGenerator {
+    private final BoardEvaluator boardEvaluator;
+
+    public BoardGenerator(BoardEvaluator evaluator) {
+        boardEvaluator = evaluator;
+    }
+
     // TODO: This is a very rough sketch, with many holes and errors.
     public Board generateBoard(List<String> possibleWords) {
         sortByLengthDescending(possibleWords);
@@ -41,7 +47,7 @@ public class BoardGenerator {
             sortByQuality(possibleBoards);
             board = possibleBoards.get(0);
             // TODO: This is temporary debug logging; clean up or remove.
-            double rating = evaluateBoard(board);
+            double rating = boardEvaluator.evaluateBoard(board);
             System.out.println("Board with rating: "+rating);
             System.out.println("Word count: "+board.getLaidWords().size());
             new BoardPrinter(new SystemOutPrinter()).printBoard(board);
@@ -56,24 +62,7 @@ public class BoardGenerator {
     }
 
     private void sortByQuality(List<Board> boards) {
-        boards.sort(Comparator.comparingDouble(this::evaluateBoard));
+        boards.sort(Comparator.comparingDouble(boardEvaluator::evaluateBoard));
     }
 
-    private double evaluateBoard(Board board) {
-        BoardLayout layout = board.getLayout();
-        double aspectRatio = getAspectRatio(layout);
-        double longestSide = getLongestSide(layout);
-        double numWords = board.getLaidWords().size();
-        return numWords / (longestSide * aspectRatio);
-    }
-
-    private double getAspectRatio(BoardLayout layout) {
-        double sizeRatio = (double)layout.getWidth() / (double)layout.getHeight();
-        if (sizeRatio < 1.0) sizeRatio = (1.0d / sizeRatio);
-        return sizeRatio;
-    }
-
-    private double getLongestSide(BoardLayout layout) {
-        return Math.max(layout.getWidth(), layout.getHeight());
-    }
 }
