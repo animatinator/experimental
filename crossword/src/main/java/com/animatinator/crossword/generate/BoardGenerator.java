@@ -3,22 +3,21 @@ package com.animatinator.crossword.generate;
 import com.animatinator.crossword.board.Board;
 import com.animatinator.crossword.board.words.LaidWord;
 import com.animatinator.crossword.evaluate.BoardEvaluator;
-import com.animatinator.crossword.print.BoardPrinter;
-import com.animatinator.crossword.print.SystemOutPrinter;
 import com.animatinator.crossword.util.BoardPosition;
 import com.animatinator.crossword.util.Direction;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class BoardGenerator {
-    private final BoardEvaluator boardEvaluator;
+    private static final Random randomGenerator = new Random();
 
-    public BoardGenerator(BoardEvaluator evaluator) {
+    private final BoardEvaluator boardEvaluator;
+    private final BoardGenerationFlags flags;
+
+    public BoardGenerator(BoardEvaluator evaluator, BoardGenerationFlags flags) {
         boardEvaluator = evaluator;
+        this.flags = flags;
     }
 
     // TODO: This is a very rough sketch, with many holes and errors.
@@ -28,7 +27,7 @@ public class BoardGenerator {
 
         Board board = new Board();
         String firstWord = wordQueue.remove();
-        board.addWord(firstWord, new BoardPosition(0, 0), Direction.HORIZONTAL);
+        board.addWord(firstWord, new BoardPosition(0, 0), generateInitialOrientation());
 
         for (String word : wordQueue) {
             List<LaidWord> optionsForWord = board.getPossibleAttachmentPointsForWord(word);
@@ -49,6 +48,15 @@ public class BoardGenerator {
         }
 
         return board;
+    }
+
+    private Direction generateInitialOrientation() {
+        if (flags.getFlag(BoardGenerationFlagConstant.RANDOM_INITIAL_ORIENTATION)) {
+            double random = randomGenerator.nextFloat();
+            return random > 0.5 ? Direction.HORIZONTAL : Direction.VERTICAL;
+        } else {
+            return Direction.HORIZONTAL;
+        }
     }
 
     private void sortByLengthDescending(List<String> possibleWords) {

@@ -21,7 +21,8 @@ public class BoardGeneratorTest {
     @Test
     public void evaluateBoardGeneration() {
         BoardEvaluator evaluator = new SimpleBoardEvaluator();
-        BoardGenerator generator = new BoardGenerator(evaluator);
+        BoardGenerationFlags flags = new BoardGenerationFlags();
+        BoardGenerator generator = new BoardGenerator(evaluator, flags);
         double[] results = new double[ITERATIONS];
         double best = -1.0d;
         Board bestBoard = null;
