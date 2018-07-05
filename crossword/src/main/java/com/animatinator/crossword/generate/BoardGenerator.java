@@ -46,12 +46,6 @@ public class BoardGenerator {
             // Pick the 'best' board.
             sortByQuality(possibleBoards);
             board = possibleBoards.get(0);
-            // TODO: This is temporary debug logging; clean up or remove.
-            double rating = boardEvaluator.evaluateBoard(board);
-            System.out.println("Board with rating: "+rating);
-            System.out.println("Word count: "+board.getLaidWords().size());
-            new BoardPrinter(new SystemOutPrinter()).printBoard(board);
-            System.out.println();
         }
 
         return board;

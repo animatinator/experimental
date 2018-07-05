@@ -3,6 +3,8 @@ package com.animatinator.crossword.generate;
 import com.animatinator.crossword.board.Board;
 import com.animatinator.crossword.evaluate.BoardEvaluator;
 import com.animatinator.crossword.evaluate.SimpleBoardEvaluator;
+import com.animatinator.crossword.print.BoardPrinter;
+import com.animatinator.crossword.print.SystemOutPrinter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -22,16 +24,22 @@ public class BoardGeneratorTest {
         BoardGenerator generator = new BoardGenerator(evaluator);
         double[] results = new double[ITERATIONS];
         double best = -1.0d;
+        Board bestBoard = null;
 
         for (int i = 0; i < ITERATIONS; i++) {
             Board board = generator.generateBoard(Arrays.asList(WORDS));
             double fitness = evaluator.evaluateBoard(board);
             results[i] = fitness;
-            best = Math.max(best, fitness);
+            if (fitness > best) {
+                bestBoard = board;
+                best = fitness;
+            }
         }
 
-        System.out.println("Best board: "+best);
         System.out.println("Average board: "+getMean(results));
+        System.out.println("Best board: "+best);
+        new BoardPrinter(new SystemOutPrinter()).printBoard(bestBoard);
+        System.out.println();
     }
 
     private static double getMean(double[] values) {
