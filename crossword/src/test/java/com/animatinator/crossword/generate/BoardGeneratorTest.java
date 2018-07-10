@@ -4,6 +4,7 @@ import com.animatinator.crossword.board.Board;
 import com.animatinator.crossword.evaluate.BoardEvaluator;
 import com.animatinator.crossword.evaluate.SimpleBoardEvaluator;
 import com.animatinator.crossword.print.BoardPrinter;
+import com.animatinator.crossword.print.BoardToHumanReadableString;
 import com.animatinator.crossword.print.SystemOutPrinter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,7 +44,7 @@ public class BoardGeneratorTest {
         System.out.println("Evaluating the default board generation method:");
         System.out.println("Average board: "+getMean(results));
         System.out.println("Best board: "+best);
-        new BoardPrinter(new SystemOutPrinter()).printBoard(bestBoard);
+        new BoardPrinter(new SystemOutPrinter(), new BoardToHumanReadableString()).printBoard(bestBoard);
         System.out.println();
     }
 

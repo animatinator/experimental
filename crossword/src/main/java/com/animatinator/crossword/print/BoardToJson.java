@@ -8,10 +8,25 @@ import com.animatinator.crossword.util.BoardPosition;
 import java.util.Optional;
 
 public class BoardToJson implements BoardToString {
+    private static final String QUOTE = "\"";
+    private static final String QUOTE_ESCAPED = "\\\"";
+
+    private final boolean escapeQuotes;
+
+    BoardToJson(boolean escapeQuotes) {
+        this.escapeQuotes = escapeQuotes;
+    }
+
+    BoardToJson() {
+        this(false);
+    }
+
     @Override
     public String getStringRepresentation(Board board) {
         BoardLayout layout = board.getLayout();
         StringBuilder builder = new StringBuilder("[");
+
+        String quote = escapeQuotes ? QUOTE_ESCAPED : QUOTE;
 
         BoardPosition topLeft = layout.getTopLeft();
 
@@ -23,7 +38,7 @@ public class BoardToJson implements BoardToString {
                 Optional<String> tileStringOptional =
                         layout.getAt(new BoardPosition(x, y).withOffset(new BoardOffset(topLeft)));
                 if (tileStringOptional.isPresent()) {
-                    builder.append(String.format("\"%s\"", tileStringOptional.get()));
+                    builder.append(String.format("%s%s%s", quote, tileStringOptional.get(), quote));
                 } else {
                     builder.append("null");
                 }

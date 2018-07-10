@@ -6,6 +6,7 @@ import com.animatinator.crossword.generate.BoardGenerationFlagConstant;
 import com.animatinator.crossword.generate.BoardGenerationFlags;
 import com.animatinator.crossword.generate.BoardGenerator;
 import com.animatinator.crossword.print.BoardPrinter;
+import com.animatinator.crossword.print.BoardToDebugOutput;
 import com.animatinator.crossword.print.SystemOutPrinter;
 
 import java.util.Arrays;
@@ -19,7 +20,7 @@ public class Main {
         BoardGenerationFlags flags = setUpFlags();
         BoardGenerator generator = new BoardGenerator(new SimpleBoardEvaluator(), flags);
         Board board = generator.generateBoard(Arrays.asList(words));
-        BoardPrinter printer = new BoardPrinter(new SystemOutPrinter());
+        BoardPrinter printer = new BoardPrinter(new SystemOutPrinter(), new BoardToDebugOutput(true));
         printer.printBoard(board);
     }
 

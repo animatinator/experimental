@@ -1,3 +1,4 @@
+import json
 import sys
 
 
@@ -12,4 +13,5 @@ if __name__ == '__main__':
     elif len(args) > 2:
         print("ERROR: Too many args! This script only takes one argument, the board to be printed.")
     else:
-        main(args[1])
+        parsed = json.loads(args[1])
+        main(parsed)

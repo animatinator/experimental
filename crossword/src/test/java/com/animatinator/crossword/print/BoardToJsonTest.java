@@ -18,6 +18,12 @@ public class BoardToJsonTest {
               "[null, \"s\", null, null, null], " +
               "[null, \"t\", null, null, null]" +
             "]";
+    private final String testBoardStringEscaped = "[" +
+            "[null, \\\"t\\\", null, null, null], " +
+            "[\\\"h\\\", \\\"e\\\", \\\"l\\\", \\\"l\\\", \\\"o\\\"], " +
+            "[null, \\\"s\\\", null, null, null], " +
+            "[null, \\\"t\\\", null, null, null]" +
+            "]";
     private final BoardToJson boardToJson = new BoardToJson();
     private Board testBoard;
 
@@ -37,5 +43,11 @@ public class BoardToJsonTest {
     @Test
     public void moreDetailedBoard() {
         assertEquals(testBoardString, boardToJson.getStringRepresentation(testBoard));
+    }
+
+    @Test
+    public void moreDetailedBoard_escaped() {
+        BoardToJson escapingBoardToJson = new BoardToJson(true);
+        assertEquals(testBoardStringEscaped, escapingBoardToJson.getStringRepresentation(testBoard));
     }
 }

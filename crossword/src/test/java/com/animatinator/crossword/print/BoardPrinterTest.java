@@ -23,7 +23,7 @@ public class BoardPrinterTest {
     @Before
     public void setUp() {
         stringOutput = new FakeStringOutput();
-        boardPrinter = new BoardPrinter(stringOutput);
+        boardPrinter = new BoardPrinter(stringOutput, new BoardToHumanReadableString());
     }
 
     @Before

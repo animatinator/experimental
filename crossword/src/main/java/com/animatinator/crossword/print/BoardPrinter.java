@@ -12,9 +12,9 @@ public class BoardPrinter {
     private final StringOutput output;
     private final BoardToString boardToString;
 
-    public BoardPrinter(StringOutput output) {
+    public BoardPrinter(StringOutput output, BoardToString boardConverter) {
         this.output = output;
-        boardToString = new BoardToHumanReadableString();
+        boardToString = boardConverter;
     }
 
     public void printBoard(Board board) {
