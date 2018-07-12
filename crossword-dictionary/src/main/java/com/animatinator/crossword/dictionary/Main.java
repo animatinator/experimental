@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         String rawDictionary;
         try {
-            rawDictionary = new String(Files.readAllBytes(Paths.get("data\\basicdict.txt")));
+            rawDictionary = new String(Files.readAllBytes(Paths.get(args[0])));
         } catch (IOException e) {
             e.printStackTrace();
             return;
