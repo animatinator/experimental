@@ -42,7 +42,7 @@ public class ProcessedDictionary {
         }
     }
 
-    List<String> getWordsMatchingFingerprint(String word) {
+    List<String> getWordsWithMatchingFingerprint(String word) {
         WordFingerPrint fingerPrint = FingerPrinter.getFingerprint(word);
 
         if (fingerPrintMap.containsKey(fingerPrint)) {

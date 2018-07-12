@@ -84,7 +84,7 @@ public class ProcessedDictionaryTest {
     @Test
     public void wordsMatchingFingerprint_emptyWord() {
         dictionary.addWord("");
-        List<String> wordsMatching = dictionary.getWordsMatchingFingerprint("");
+        List<String> wordsMatching = dictionary.getWordsWithMatchingFingerprint("");
         assertHasLength(1, wordsMatching);
         assertContains(wordsMatching, "");
     }
@@ -92,14 +92,14 @@ public class ProcessedDictionaryTest {
     @Test
     public void wordsMatchingFingerprint_noMatch() {
         dictionary.addWord("hello");
-        List<String> wordsMatching = dictionary.getWordsMatchingFingerprint("hallo");
+        List<String> wordsMatching = dictionary.getWordsWithMatchingFingerprint("hallo");
         assertEmpty(wordsMatching);
     }
 
     @Test
     public void wordsMatchingFingerprint_addThenMatch() {
         dictionary.addWord("sauce");
-        List<String> wordsMatching = dictionary.getWordsMatchingFingerprint("cause");
+        List<String> wordsMatching = dictionary.getWordsWithMatchingFingerprint("cause");
         assertHasLength(1, wordsMatching);
         assertContains(wordsMatching, "sauce");
     }
@@ -108,7 +108,7 @@ public class ProcessedDictionaryTest {
     public void twoWordsWithSameFingerprint() {
         dictionary.addWord("cause");
         dictionary.addWord("sauce");
-        List<String> wordsMatching = dictionary.getWordsMatchingFingerprint("ausce");
+        List<String> wordsMatching = dictionary.getWordsWithMatchingFingerprint("ausce");
         assertHasLength(2, wordsMatching);
         assertContains(wordsMatching, "cause", "sauce");
     }
