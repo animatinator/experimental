@@ -58,7 +58,7 @@ public class ProcessedDictionaryTest {
     }
 
     @Test
-    public void eAcute() {
+    public void wordsOfLength_eAcute() {
         dictionary.addWord("intentaré");
         List<String> wordsOfLengthNine = dictionary.getWordsOfLength(9);
         assertHasLength(1, wordsOfLengthNine);
@@ -66,7 +66,7 @@ public class ProcessedDictionaryTest {
     }
 
     @Test
-    public void iAcute() {
+    public void wordsOfLength_iAcute() {
         dictionary.addWord("comí");
         List<String> wordsOfLengthFour = dictionary.getWordsOfLength(4);
         assertHasLength(1, wordsOfLengthFour);
@@ -74,11 +74,43 @@ public class ProcessedDictionaryTest {
     }
 
     @Test
-    public void enye() {
+    public void wordsOfLength_enye() {
         dictionary.addWord("niño");
         List<String> wordsOfLengthFour = dictionary.getWordsOfLength(4);
         assertHasLength(1, wordsOfLengthFour);
         assertContains(wordsOfLengthFour, "niño");
+    }
+
+    @Test
+    public void wordsMatchingFingerprint_emptyWord() {
+        dictionary.addWord("");
+        List<String> wordsMatching = dictionary.getWordsMatchingFingerprint("");
+        assertHasLength(1, wordsMatching);
+        assertContains(wordsMatching, "");
+    }
+
+    @Test
+    public void wordsMatchingFingerprint_noMatch() {
+        dictionary.addWord("hello");
+        List<String> wordsMatching = dictionary.getWordsMatchingFingerprint("hallo");
+        assertEmpty(wordsMatching);
+    }
+
+    @Test
+    public void wordsMatchingFingerprint_addThenMatch() {
+        dictionary.addWord("sauce");
+        List<String> wordsMatching = dictionary.getWordsMatchingFingerprint("cause");
+        assertHasLength(1, wordsMatching);
+        assertContains(wordsMatching, "sauce");
+    }
+
+    @Test
+    public void twoWordsWithSameFingerprint() {
+        dictionary.addWord("cause");
+        dictionary.addWord("sauce");
+        List<String> wordsMatching = dictionary.getWordsMatchingFingerprint("ausce");
+        assertHasLength(2, wordsMatching);
+        assertContains(wordsMatching, "cause", "sauce");
     }
 
     private static <T> void assertEmpty(List<T> list) {

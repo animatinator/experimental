@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class FingerPrinter {
-    static WordFingerPrint getFingerprint(String word) {
+public class FingerPrinter {
+    public static WordFingerPrint getFingerprint(String word) {
         String[] characters = word.split("");
         Arrays.sort(characters);
         return new WordFingerPrint(removeDuplicates(characters));
