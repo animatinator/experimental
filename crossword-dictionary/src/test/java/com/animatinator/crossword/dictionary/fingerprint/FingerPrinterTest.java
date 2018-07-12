@@ -28,4 +28,9 @@ public class FingerPrinterTest {
         assertEquals("inoñ", FingerPrinter.getFingerprint("niño").toString());
         assertEquals("éíñ", FingerPrinter.getFingerprint("ñéí").toString());
     }
+
+    @Test
+    public void equalFingerPrints() {
+        assertEquals(FingerPrinter.getFingerprint("cause"), FingerPrinter.getFingerprint("sauce"));
+    }
 }
