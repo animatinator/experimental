@@ -1,5 +1,7 @@
 package com.animatinator.crossword.dictionary.puzzle;
 
+import com.animatinator.crossword.dictionary.fingerprint.FingerPrinter;
+import com.animatinator.crossword.dictionary.fingerprint.WordFingerPrint;
 import com.animatinator.crossword.dictionary.match.WordMatcher;
 import com.animatinator.crossword.dictionary.processed.ProcessedDictionary;
 
@@ -8,7 +10,8 @@ import java.util.stream.Collectors;
 
 public class PuzzleGenerator {
 
-    private static final PuzzleConfiguration EMPTY_PUZZLE = new PuzzleConfiguration(new ArrayList<>(), 0);
+    private static final PuzzleConfiguration EMPTY_PUZZLE =
+            new PuzzleConfiguration(new String[]{}, new ArrayList<>(), 0);
 
     private final int minimumWordLength;
     private final int maximumWordCount;
@@ -48,6 +51,7 @@ public class PuzzleGenerator {
         }
 
         String baseWord = possibleBaseWord.get();
+        WordFingerPrint baseWordFingerPrint = FingerPrinter.getFingerprint(baseWord);
         numLetters = baseWord.length();
         List<String> words = matcher.getWordsFormableFromWord(baseWord, dictionary);
 
@@ -57,7 +61,7 @@ public class PuzzleGenerator {
             words = randomlySelectNFromList(words, maximumWordCount);
         }
 
-        return new PuzzleConfiguration(words, numLetters);
+        return new PuzzleConfiguration(baseWordFingerPrint.getCharacters(), words, numLetters);
     }
 
     private Optional<String> chooseBaseWord(int numLetters) {

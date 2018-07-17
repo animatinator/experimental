@@ -10,13 +10,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class PuzzleGeneratorTest {
@@ -86,6 +85,12 @@ public class PuzzleGeneratorTest {
     public void puzzleWithInitialLengthTooHigh() {
         PuzzleConfiguration puzzle = generator.withMinimumWordLength(3).buildPuzzle(10);
         assertEquals(6, puzzle.getNumberOfLettersRequired());
+    }
+
+    @Test
+    public void setOfLettersIsCorrect() {
+        PuzzleConfiguration puzzle = generator.withMinimumWordLength(3).buildPuzzle(6);
+        TestUtils.assertContains(Arrays.asList(puzzle.getLetters()), "c", "a", "u", "s", "e", "d");
     }
 
     private void assertWordsAllInDictionary(List<String> words, ProcessedDictionary dictionary) {
