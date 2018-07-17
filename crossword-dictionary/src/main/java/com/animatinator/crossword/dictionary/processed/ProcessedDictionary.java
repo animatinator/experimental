@@ -37,7 +37,7 @@ public class ProcessedDictionary {
         return processedDictionary;
     }
 
-    List<String> getWordsOfLength(int length) {
+    public List<String> getWordsOfLength(int length) {
         if (length < wordsOfLength.size()) {
             return wordsOfLength.get(length);
         }

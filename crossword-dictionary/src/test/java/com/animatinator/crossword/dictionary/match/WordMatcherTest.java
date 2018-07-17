@@ -10,8 +10,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -28,17 +26,10 @@ public class WordMatcherTest {
 
     @Before
     public void setUpDictionary() {
-        dictionary = new ProcessedDictionary();
-
-        String rawDictionary;
         try {
-            rawDictionary = new String(Files.readAllBytes(Paths.get("data\\basicdict.txt")));
+            dictionary = TestUtils.loadTestDictionary();
         } catch (IOException e) {
             fail("Couldn't load test dictionary! Exception: "+e);
-            return;
-        }
-        for (String word : rawDictionary.split(System.getProperty("line.separator"))) {
-            dictionary.addWord(word);
         }
     }
 
