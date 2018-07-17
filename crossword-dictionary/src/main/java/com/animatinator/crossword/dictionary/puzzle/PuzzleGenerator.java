@@ -37,7 +37,6 @@ public class PuzzleGenerator {
         return new PuzzleGenerator(dictionary, minimumWordLength, newMaximumWordCount);
     }
 
-    // TODO move numLetters into member var
     public PuzzleConfiguration buildPuzzle(int numLetters) {
         if (numLetters == 0) {
             return EMPTY_PUZZLE;
