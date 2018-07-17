@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-class WordMatcher {
+public class WordMatcher {
 
     /**
      * Takes a word to match in the constructor and matches {@link DictionaryEntry} objects which are formable from the
@@ -54,7 +54,11 @@ class WordMatcher {
         return true;
     }
 
-    List<String> getWordsFormableFromWord(String word, ProcessedDictionary dictionary) {
+    public boolean firstWordCanFormSecond(String first, String second) {
+        return firstWordCanFormSecond(FingerPrinter.getFingerprint(first), FingerPrinter.getFingerprint(second));
+    }
+
+    public List<String> getWordsFormableFromWord(String word, ProcessedDictionary dictionary) {
         Predicate<DictionaryEntry> dictionaryEntryPredicate = new DictionaryWordMatcher(word);
         return dictionary.getDictionary().parallelStream()
                 .filter(dictionaryEntryPredicate)

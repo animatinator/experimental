@@ -1,5 +1,6 @@
 package com.animatinator.crossword.dictionary.puzzle;
 
+import com.animatinator.crossword.dictionary.match.WordMatcher;
 import com.animatinator.crossword.dictionary.processed.ProcessedDictionary;
 
 import java.util.ArrayList;
@@ -13,10 +14,12 @@ public class PuzzleGenerator {
 
     private final ProcessedDictionary dictionary;
     private final Random random;
+    private final WordMatcher matcher;
 
     public PuzzleGenerator(ProcessedDictionary dictionary) {
         this.dictionary = dictionary;
         random  = new Random();
+        matcher = new WordMatcher();
     }
 
     public PuzzleConfiguration buildPuzzle(int numLetters) {
@@ -29,7 +32,7 @@ public class PuzzleGenerator {
             return EMPTY_PUZZLE;
         }
 
-        List<String> words = new ArrayList<>();
+        List<String> words = matcher.getWordsFormableFromWord(baseWord.get(), dictionary);
         return new PuzzleConfiguration(words, numLetters);
     }
 

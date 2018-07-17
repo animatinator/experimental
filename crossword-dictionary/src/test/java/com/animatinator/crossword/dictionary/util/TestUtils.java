@@ -26,6 +26,10 @@ public class TestUtils {
         assertTrue(list.containsAll(Arrays.asList(items)));
     }
 
+    public static <T> void assertContains(List<T> list, List<T> items) {
+        assertTrue(list.containsAll(items));
+    }
+
     public static ProcessedDictionary loadTestDictionary() throws IOException {
         ProcessedDictionary dictionary = new ProcessedDictionary();
 

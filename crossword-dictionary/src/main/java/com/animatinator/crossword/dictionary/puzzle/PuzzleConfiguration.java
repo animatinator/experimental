@@ -6,16 +6,23 @@ public class PuzzleConfiguration {
     private final List<String> words;
     private final int numberOfLettersRequired;
 
-    public PuzzleConfiguration(List<String> words, int numberOfLettersRequired) {
+    PuzzleConfiguration(List<String> words, int numberOfLettersRequired) {
         this.words = words;
         this.numberOfLettersRequired = numberOfLettersRequired;
     }
 
-    public List<String> getWords() {
+    List<String> getWords() {
         return words;
     }
 
-    public int getNumberOfLettersRequired() {
+    int getNumberOfLettersRequired() {
         return numberOfLettersRequired;
+    }
+
+    @Override
+    public String toString() {
+        return "PuzzleConfiguration{" +
+                "words=" + words +
+                '}';
     }
 }

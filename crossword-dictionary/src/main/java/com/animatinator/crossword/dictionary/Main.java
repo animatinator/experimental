@@ -1,6 +1,8 @@
 package com.animatinator.crossword.dictionary;
 
 import com.animatinator.crossword.dictionary.processed.ProcessedDictionary;
+import com.animatinator.crossword.dictionary.puzzle.PuzzleConfiguration;
+import com.animatinator.crossword.dictionary.puzzle.PuzzleGenerator;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,7 +17,11 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Failed to load dictionary! Exception: "+e);
             e.printStackTrace();
+            return;
         }
+        PuzzleGenerator generator = new PuzzleGenerator(dictionary);
+        PuzzleConfiguration puzzle = generator.buildPuzzle(4);
+        System.out.println(puzzle);
     }
 
     private static ProcessedDictionary loadDictionaryFromFile(Path path) throws IOException {
