@@ -4,27 +4,41 @@ import com.animatinator.crossword.dictionary.match.WordMatcher;
 import com.animatinator.crossword.dictionary.processed.ProcessedDictionary;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class PuzzleGenerator {
 
     private static final PuzzleConfiguration EMPTY_PUZZLE = new PuzzleConfiguration(new ArrayList<>(), 0);
+
+    private final int minimumWordLength;
+    private final int maximumWordCount;
 
     private final ProcessedDictionary dictionary;
     private final Random random;
     private final WordMatcher matcher;
 
     public PuzzleGenerator(ProcessedDictionary dictionary) {
+        this(dictionary, 0, 1000);
+    }
+
+    private PuzzleGenerator(ProcessedDictionary dictionary, int minimumWordLength, int maximumWordCount) {
         this.dictionary = dictionary;
+        this.minimumWordLength = minimumWordLength;
+        this.maximumWordCount = maximumWordCount;
         random  = new Random();
         matcher = new WordMatcher();
     }
 
-    public PuzzleConfiguration buildPuzzle(int numLetters) {
-        return buildPuzzle(numLetters, 1000);
+    public PuzzleGenerator withMinimumWordLength(int newMinimumWordLength) {
+        return new PuzzleGenerator(dictionary, newMinimumWordLength, maximumWordCount);
     }
 
-    // TODO also take a minimum word length
-    public PuzzleConfiguration buildPuzzle(int numLetters, int wordLimit) {
+    public PuzzleGenerator withMaximumWordCount(int newMaximumWordCount) {
+        return new PuzzleGenerator(dictionary, minimumWordLength, newMaximumWordCount);
+    }
+
+    // TODO move numLetters into member var
+    public PuzzleConfiguration buildPuzzle(int numLetters) {
         if (numLetters == 0) {
             return EMPTY_PUZZLE;
         }
@@ -35,8 +49,11 @@ public class PuzzleGenerator {
         }
 
         List<String> words = matcher.getWordsFormableFromWord(baseWord.get(), dictionary);
-        if (wordLimit < words.size()) {
-            words = randomlySelectNFromList(words, wordLimit);
+
+        words = words.stream().filter(word -> word.length() >= minimumWordLength).collect(Collectors.toList());
+
+        if (maximumWordCount < words.size()) {
+            words = randomlySelectNFromList(words, maximumWordCount);
         }
 
         return new PuzzleConfiguration(words, numLetters);

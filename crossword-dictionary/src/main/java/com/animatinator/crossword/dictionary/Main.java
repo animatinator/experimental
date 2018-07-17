@@ -19,7 +19,7 @@ public class Main {
             e.printStackTrace();
             return;
         }
-        PuzzleGenerator generator = new PuzzleGenerator(dictionary);
+        PuzzleGenerator generator = new PuzzleGenerator(dictionary).withMinimumWordLength(3).withMaximumWordCount(5);
         PuzzleConfiguration puzzle = generator.buildPuzzle(4);
         System.out.println(puzzle);
     }

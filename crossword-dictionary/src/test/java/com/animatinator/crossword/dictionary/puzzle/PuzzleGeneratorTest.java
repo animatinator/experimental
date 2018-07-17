@@ -59,9 +59,27 @@ public class PuzzleGeneratorTest {
     }
 
     @Test
+    public void puzzleWithZeroWords() {
+        PuzzleConfiguration puzzle = generator.withMaximumWordCount(0).buildPuzzle(6);
+        TestUtils.assertHasLength(0, puzzle.getWords());
+    }
+
+    @Test
     public void puzzleWithOnlyOneWord() {
-        PuzzleConfiguration puzzle = generator.buildPuzzle(6, 1);
+        PuzzleConfiguration puzzle = generator.withMaximumWordCount(1).buildPuzzle(6);
         TestUtils.assertHasLength(1, puzzle.getWords());
+    }
+
+    @Test
+    public void puzzleWithMinimumWordLength() {
+        PuzzleConfiguration puzzle = generator.withMinimumWordLength(6).buildPuzzle(6);
+        TestUtils.assertHasLength(1, puzzle.getWords());
+    }
+
+    @Test
+    public void puzzleWithMinimumLengthTooHigh() {
+        PuzzleConfiguration puzzle = generator.withMinimumWordLength(7).buildPuzzle(6);
+        TestUtils.assertHasLength(0, puzzle.getWords());
     }
 
     private void assertWordsAllInDictionary(List<String> words, ProcessedDictionary dictionary) {
