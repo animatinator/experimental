@@ -1,5 +1,6 @@
 package com.animatinator.crossword.dictionary.processed;
 
+import com.animatinator.crossword.dictionary.fingerprint.WordFingerPrint;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -82,35 +83,9 @@ public class ProcessedDictionaryTest {
     }
 
     @Test
-    public void wordsMatchingFingerprint_emptyWord() {
-        dictionary.addWord("");
-        List<String> wordsMatching = dictionary.getWordsWithMatchingFingerprint("");
-        assertHasLength(1, wordsMatching);
-        assertContains(wordsMatching, "");
-    }
-
-    @Test
-    public void wordsMatchingFingerprint_noMatch() {
-        dictionary.addWord("hello");
-        List<String> wordsMatching = dictionary.getWordsWithMatchingFingerprint("hallo");
-        assertEmpty(wordsMatching);
-    }
-
-    @Test
-    public void wordsMatchingFingerprint_addThenMatch() {
-        dictionary.addWord("sauce");
-        List<String> wordsMatching = dictionary.getWordsWithMatchingFingerprint("cause");
-        assertHasLength(1, wordsMatching);
-        assertContains(wordsMatching, "sauce");
-    }
-
-    @Test
-    public void twoWordsWithSameFingerprint() {
-        dictionary.addWord("cause");
-        dictionary.addWord("sauce");
-        List<String> wordsMatching = dictionary.getWordsWithMatchingFingerprint("ausce");
-        assertHasLength(2, wordsMatching);
-        assertContains(wordsMatching, "cause", "sauce");
+    public void addWordToProcessedDictionary() {
+        dictionary.addWord("test");
+        assertContains(dictionary.getDictionary(), new DictionaryEntry("test", new WordFingerPrint("estt".split(""))));
     }
 
     private static <T> void assertEmpty(List<T> list) {

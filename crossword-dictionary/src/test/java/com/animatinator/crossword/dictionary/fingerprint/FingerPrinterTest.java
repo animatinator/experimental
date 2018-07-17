@@ -15,8 +15,13 @@ public class FingerPrinterTest {
     }
 
     @Test
+    public void emptyFingerPrint_noCharacters() {
+        assertEquals(0, FingerPrinter.getFingerprint("").getCharacters().length);
+    }
+
+    @Test
     public void simpleFingerPrint() {
-        assertEquals("est", FingerPrinter.getFingerprint("test").toString());
+        assertEquals("estt", FingerPrinter.getFingerprint("test").toString());
     }
 
     /**
@@ -24,7 +29,7 @@ public class FingerPrinterTest {
      */
     @Test
     public void spanishWords() {
-        assertEquals("aeinrté", FingerPrinter.getFingerprint("intentaré").toString());
+        assertEquals("aeinnrtté", FingerPrinter.getFingerprint("intentaré").toString());
         assertEquals("cmoí", FingerPrinter.getFingerprint("comí").toString());
         assertEquals("inoñ", FingerPrinter.getFingerprint("niño").toString());
         assertEquals("éíñ", FingerPrinter.getFingerprint("ñéí").toString());
@@ -38,10 +43,5 @@ public class FingerPrinterTest {
     @Test
     public void equalFingerPrints() {
         assertEquals(FingerPrinter.getFingerprint("cause"), FingerPrinter.getFingerprint("sauce"));
-    }
-
-    @Test
-    public void duplicateLetters() {
-        assertEquals(FingerPrinter.getFingerprint("adder"), FingerPrinter.getFingerprint("read"));
     }
 }

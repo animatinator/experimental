@@ -4,17 +4,15 @@ import com.animatinator.crossword.dictionary.fingerprint.FingerPrinter;
 import com.animatinator.crossword.dictionary.fingerprint.WordFingerPrint;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProcessedDictionary {
     private ArrayList<List<String>> wordsOfLength = new ArrayList<>();
-    private Map<WordFingerPrint, List<String>> fingerPrintMap = new HashMap<>();
+    private ArrayList<DictionaryEntry> processedDictionary = new ArrayList<>();
 
     public void addWord(String word) {
         addWordToWordsOfLength(word);
-        addWordToFingerPrintMap(word);
+        addWordToProcessedDictionary(word);
     }
 
     private void addWordToWordsOfLength(String word) {
@@ -30,26 +28,13 @@ public class ProcessedDictionary {
         }
     }
 
-    private void addWordToFingerPrintMap(String word) {
+    private void addWordToProcessedDictionary(String word) {
         WordFingerPrint fingerPrint = FingerPrinter.getFingerprint(word);
-
-        if (fingerPrintMap.containsKey(fingerPrint)) {
-            fingerPrintMap.get(fingerPrint).add(word);
-        } else {
-            List<String> newEntry = new ArrayList<>();
-            newEntry.add(word);
-            fingerPrintMap.put(fingerPrint, newEntry);
-        }
+        processedDictionary.add(new DictionaryEntry(word, fingerPrint));
     }
 
-    List<String> getWordsWithMatchingFingerprint(String word) {
-        WordFingerPrint fingerPrint = FingerPrinter.getFingerprint(word);
-
-        if (fingerPrintMap.containsKey(fingerPrint)) {
-            return fingerPrintMap.get(FingerPrinter.getFingerprint(word));
-        } else {
-            return new ArrayList<>();
-        }
+    List<DictionaryEntry> getDictionary() {
+        return processedDictionary;
     }
 
     List<String> getWordsOfLength(int length) {

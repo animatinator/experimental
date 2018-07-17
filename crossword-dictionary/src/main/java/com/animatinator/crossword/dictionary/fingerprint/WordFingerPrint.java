@@ -5,8 +5,12 @@ import java.util.Arrays;
 public class WordFingerPrint {
     private String[] characters;
 
-    WordFingerPrint(String[] characters) {
+    public WordFingerPrint(String[] characters) {
         this.characters = characters;
+    }
+
+    public String[] getCharacters() {
+        return characters;
     }
 
     @Override public String toString() {
