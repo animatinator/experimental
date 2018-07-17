@@ -42,12 +42,14 @@ public class PuzzleGenerator {
             return EMPTY_PUZZLE;
         }
 
-        Optional<String> baseWord = chooseBaseWord(numLetters);
-        if (!baseWord.isPresent()) {
+        Optional<String> possibleBaseWord = chooseBaseWord(numLetters);
+        if (!possibleBaseWord.isPresent()) {
             return EMPTY_PUZZLE;
         }
 
-        List<String> words = matcher.getWordsFormableFromWord(baseWord.get(), dictionary);
+        String baseWord = possibleBaseWord.get();
+        numLetters = baseWord.length();
+        List<String> words = matcher.getWordsFormableFromWord(baseWord, dictionary);
 
         words = words.stream().filter(word -> word.length() >= minimumWordLength).collect(Collectors.toList());
 
@@ -58,8 +60,18 @@ public class PuzzleGenerator {
         return new PuzzleConfiguration(words, numLetters);
     }
 
-    // TODO: if there's nothing of the supplied size, keep trying smaller.
     private Optional<String> chooseBaseWord(int numLetters) {
+        Optional<String> result = Optional.empty();
+
+        while (!result.isPresent() && numLetters > 0) {
+            result = chooseBaseWordForFixedLength(numLetters);
+            numLetters--;
+        }
+
+        return result;
+    }
+
+    private Optional<String> chooseBaseWordForFixedLength(int numLetters) {
         List<String> possibleBaseWords = dictionary.getWordsOfLength(numLetters);
 
         if (possibleBaseWords.size() == 0) {

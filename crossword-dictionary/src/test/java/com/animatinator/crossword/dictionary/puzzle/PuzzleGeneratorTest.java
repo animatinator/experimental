@@ -82,6 +82,12 @@ public class PuzzleGeneratorTest {
         TestUtils.assertHasLength(0, puzzle.getWords());
     }
 
+    @Test
+    public void puzzleWithInitialLengthTooHigh() {
+        PuzzleConfiguration puzzle = generator.withMinimumWordLength(3).buildPuzzle(10);
+        assertEquals(6, puzzle.getNumberOfLettersRequired());
+    }
+
     private void assertWordsAllInDictionary(List<String> words, ProcessedDictionary dictionary) {
         List<String> dictionaryWords = dictionary.getDictionary().stream().map(DictionaryEntry::word).collect(Collectors.toList());
         TestUtils.assertContains(dictionaryWords, words);
