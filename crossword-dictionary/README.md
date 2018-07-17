@@ -8,6 +8,8 @@ It takes an arbitrary dictionary file as input and can generate puzzles with
 configurable minimum word length, maximum word length and maximum number of
 words.
 
+The `data` folder contains some sample dictionaries for experimentation.
+
 ## Usage
 ```
 >> Main /data/basicdict.txt
