@@ -1,11 +1,11 @@
 package com.animatinator.crossword.dictionary.processed;
 
 import com.animatinator.crossword.dictionary.fingerprint.WordFingerPrint;
+import com.animatinator.crossword.dictionary.util.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -17,25 +17,25 @@ public class ProcessedDictionaryTest {
 
     @Test
     public void noWordsOfLength() {
-        assertEmpty(dictionary.getWordsOfLength(0));
-        assertEmpty(dictionary.getWordsOfLength(1));
-        assertEmpty(dictionary.getWordsOfLength(50));
+        TestUtils.assertEmpty(dictionary.getWordsOfLength(0));
+        TestUtils.assertEmpty(dictionary.getWordsOfLength(1));
+        TestUtils.assertEmpty(dictionary.getWordsOfLength(50));
     }
 
     @Test
     public void addWordOfLength() {
         dictionary.addWord("hello");
         List<String> wordsOfLengthFive = dictionary.getWordsOfLength(5);
-        assertHasLength(1, wordsOfLengthFive);
-        assertContains(wordsOfLengthFive, "hello");
+        TestUtils.assertHasLength(1, wordsOfLengthFive);
+        TestUtils.assertContains(wordsOfLengthFive, "hello");
     }
 
     @Test
     public void addWordOfLengthInExistingRange() {
         dictionary.addWord("hello");
         dictionary.addWord("one");
-        assertHasLength(1, dictionary.getWordsOfLength(3));
-        assertHasLength(1, dictionary.getWordsOfLength(5));
+        TestUtils.assertHasLength(1, dictionary.getWordsOfLength(3));
+        TestUtils.assertHasLength(1, dictionary.getWordsOfLength(5));
     }
 
     @Test
@@ -43,8 +43,8 @@ public class ProcessedDictionaryTest {
         dictionary.addWord("word");
         dictionary.addWord("four");
         List<String> wordsOfLengthFour = dictionary.getWordsOfLength(4);
-        assertHasLength(2, wordsOfLengthFour);
-        assertContains(wordsOfLengthFour, "word", "four");
+        TestUtils.assertHasLength(2, wordsOfLengthFour);
+        TestUtils.assertContains(wordsOfLengthFour, "word", "four");
     }
 
     /**
@@ -54,50 +54,38 @@ public class ProcessedDictionaryTest {
     public void wordOfLengthZero() {
         dictionary.addWord("");
         List<String> wordsOfLengthZero = dictionary.getWordsOfLength(0);
-        assertHasLength(1, wordsOfLengthZero);
-        assertContains(wordsOfLengthZero, "");
+        TestUtils.assertHasLength(1, wordsOfLengthZero);
+        TestUtils.assertContains(wordsOfLengthZero, "");
     }
 
     @Test
     public void wordsOfLength_eAcute() {
         dictionary.addWord("intentaré");
         List<String> wordsOfLengthNine = dictionary.getWordsOfLength(9);
-        assertHasLength(1, wordsOfLengthNine);
-        assertContains(wordsOfLengthNine, "intentaré");
+        TestUtils.assertHasLength(1, wordsOfLengthNine);
+        TestUtils.assertContains(wordsOfLengthNine, "intentaré");
     }
 
     @Test
     public void wordsOfLength_iAcute() {
         dictionary.addWord("comí");
         List<String> wordsOfLengthFour = dictionary.getWordsOfLength(4);
-        assertHasLength(1, wordsOfLengthFour);
-        assertContains(wordsOfLengthFour, "comí");
+        TestUtils.assertHasLength(1, wordsOfLengthFour);
+        TestUtils.assertContains(wordsOfLengthFour, "comí");
     }
 
     @Test
     public void wordsOfLength_enye() {
         dictionary.addWord("niño");
         List<String> wordsOfLengthFour = dictionary.getWordsOfLength(4);
-        assertHasLength(1, wordsOfLengthFour);
-        assertContains(wordsOfLengthFour, "niño");
+        TestUtils.assertHasLength(1, wordsOfLengthFour);
+        TestUtils.assertContains(wordsOfLengthFour, "niño");
     }
 
     @Test
     public void addWordToProcessedDictionary() {
         dictionary.addWord("test");
-        assertContains(dictionary.getDictionary(), new DictionaryEntry("test", new WordFingerPrint("estt".split(""))));
+        TestUtils.assertContains(dictionary.getDictionary(), new DictionaryEntry("test", new WordFingerPrint("estt".split(""))));
     }
 
-    private static <T> void assertEmpty(List<T> list) {
-        assertTrue(list.isEmpty());
-    }
-
-    private static <T> void assertHasLength(int expected, List<T> list) {
-        assertEquals(expected, list.size());
-    }
-
-    @SafeVarargs
-    private static <T> void assertContains(List<T> list, T... items) {
-        assertTrue(list.containsAll(Arrays.asList(items)));
-    }
 }

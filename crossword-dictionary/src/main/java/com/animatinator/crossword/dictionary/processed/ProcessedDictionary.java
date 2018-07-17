@@ -33,7 +33,7 @@ public class ProcessedDictionary {
         processedDictionary.add(new DictionaryEntry(word, fingerPrint));
     }
 
-    List<DictionaryEntry> getDictionary() {
+    public List<DictionaryEntry> getDictionary() {
         return processedDictionary;
     }
 

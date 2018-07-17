@@ -1,9 +1,34 @@
 package com.animatinator.crossword.dictionary.match;
 
+import com.animatinator.crossword.dictionary.fingerprint.FingerPrinter;
 import com.animatinator.crossword.dictionary.fingerprint.WordFingerPrint;
+import com.animatinator.crossword.dictionary.processed.DictionaryEntry;
+import com.animatinator.crossword.dictionary.processed.ProcessedDictionary;
+
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 class WordMatcher {
-    boolean firstWordCanFormSecond(WordFingerPrint first, WordFingerPrint second) {
+
+    /**
+     * Takes a word to match in the constructor and matches {@link DictionaryEntry} objects which are formable from the
+     * word to match.
+     */
+    private static final class DictionaryWordMatcher implements Predicate<DictionaryEntry> {
+        private final WordFingerPrint wordToMatch;
+
+        private DictionaryWordMatcher(String wordToMatch) {
+            this.wordToMatch = FingerPrinter.getFingerprint(wordToMatch);
+        }
+
+        @Override
+        public boolean test(DictionaryEntry dictionaryEntry) {
+            return firstWordCanFormSecond(wordToMatch, dictionaryEntry.fingerPrint());
+        }
+    }
+
+    static boolean firstWordCanFormSecond(WordFingerPrint first, WordFingerPrint second) {
         String[] firstCharacters = first.getCharacters();
         String[] secondCharacters = second.getCharacters();
         int firstIndex = 0, secondIndex = 0;
@@ -27,5 +52,13 @@ class WordMatcher {
         }
 
         return true;
+    }
+
+    List<String> getWordsFormableFromWord(String word, ProcessedDictionary dictionary) {
+        Predicate<DictionaryEntry> dictionaryEntryPredicate = new DictionaryWordMatcher(word);
+        return dictionary.getDictionary().parallelStream()
+                .filter(dictionaryEntryPredicate)
+                .map(DictionaryEntry::word)
+                .collect(Collectors.toList());
     }
 }
