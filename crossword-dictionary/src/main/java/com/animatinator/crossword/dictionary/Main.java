@@ -19,8 +19,8 @@ public class Main {
             e.printStackTrace();
             return;
         }
-        PuzzleGenerator generator = new PuzzleGenerator(dictionary).withMinimumWordLength(3).withMaximumWordCount(5);
-        PuzzleConfiguration puzzle = generator.buildPuzzle(4);
+        PuzzleGenerator generator = new PuzzleGenerator(dictionary).withMinimumWordLength(3).withMaximumWordCount(8);
+        PuzzleConfiguration puzzle = generator.buildPuzzle(10);
         System.out.println(puzzle);
     }
 
