@@ -3,10 +3,7 @@ package com.animatinator.crossword.dictionary.puzzle;
 import com.animatinator.crossword.dictionary.match.WordMatcher;
 import com.animatinator.crossword.dictionary.processed.ProcessedDictionary;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 public class PuzzleGenerator {
 
@@ -23,6 +20,11 @@ public class PuzzleGenerator {
     }
 
     public PuzzleConfiguration buildPuzzle(int numLetters) {
+        return buildPuzzle(numLetters, 1000);
+    }
+
+    // TODO also take a minimum word length
+    public PuzzleConfiguration buildPuzzle(int numLetters, int wordLimit) {
         if (numLetters == 0) {
             return EMPTY_PUZZLE;
         }
@@ -33,6 +35,10 @@ public class PuzzleGenerator {
         }
 
         List<String> words = matcher.getWordsFormableFromWord(baseWord.get(), dictionary);
+        if (wordLimit < words.size()) {
+            words = randomlySelectNFromList(words, wordLimit);
+        }
+
         return new PuzzleConfiguration(words, numLetters);
     }
 
@@ -46,5 +52,11 @@ public class PuzzleGenerator {
 
         int indexToUse = random.nextInt(possibleBaseWords.size());
         return Optional.of(possibleBaseWords.get(indexToUse));
+    }
+
+    private List<String> randomlySelectNFromList(List<String> input, int limit) {
+        List<String> copy = new LinkedList<>(input);
+        Collections.shuffle(copy);
+        return copy.subList(0, Math.min(input.size(), limit));
     }
 }

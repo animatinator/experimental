@@ -58,6 +58,12 @@ public class PuzzleGeneratorTest {
         }
     }
 
+    @Test
+    public void puzzleWithOnlyOneWord() {
+        PuzzleConfiguration puzzle = generator.buildPuzzle(6, 1);
+        TestUtils.assertHasLength(1, puzzle.getWords());
+    }
+
     private void assertWordsAllInDictionary(List<String> words, ProcessedDictionary dictionary) {
         List<String> dictionaryWords = dictionary.getDictionary().stream().map(DictionaryEntry::word).collect(Collectors.toList());
         TestUtils.assertContains(dictionaryWords, words);
