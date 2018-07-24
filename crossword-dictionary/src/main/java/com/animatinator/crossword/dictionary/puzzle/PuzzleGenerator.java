@@ -50,6 +50,7 @@ public class PuzzleGenerator {
             return EMPTY_PUZZLE;
         }
 
+        // TODO: Consider trying a few base words and picking the one with the 'best' options by some criterion.
         String baseWord = possibleBaseWord.get();
         WordFingerPrint baseWordFingerPrint = FingerPrinter.getFingerprint(baseWord);
         numLetters = baseWord.length();
