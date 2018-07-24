@@ -2,15 +2,25 @@ package com.animatinator.crossword.evaluate;
 
 import com.animatinator.crossword.board.Board;
 import com.animatinator.crossword.board.BoardLayout;
+import com.animatinator.crossword.generate.BoardGenerationFlagConstant;
+import com.animatinator.crossword.generate.BoardGenerationFlags;
+import com.animatinator.crossword.util.BoardLayoutUtils;
 
 public class SimpleBoardEvaluator implements BoardEvaluator {
+    private final BoardGenerationFlags flags;
+
+    public SimpleBoardEvaluator(BoardGenerationFlags flags) {
+        this.flags = flags;
+    }
+
     @Override
     public double evaluateBoard(Board board) {
         BoardLayout layout = board.getLayout();
         double aspectRatio = getAspectRatio(layout);
         double longestSide = getLongestSide(layout);
         double numWords = board.getLaidWords().size();
-        return numWords / (longestSide * aspectRatio);
+        double intersectionCountFactor = getIntersectionCountFactor(layout);
+        return (numWords * intersectionCountFactor) / (longestSide * aspectRatio);
     }
 
     private double getAspectRatio(BoardLayout layout) {
@@ -21,5 +31,13 @@ public class SimpleBoardEvaluator implements BoardEvaluator {
 
     private double getLongestSide(BoardLayout layout) {
         return Math.max(layout.getWidth(), layout.getHeight());
+    }
+
+    private double getIntersectionCountFactor(BoardLayout layout) {
+        if (flags.getFlag(BoardGenerationFlagConstant.PREFER_MORE_INTERSECTIONS)) {
+            return (BoardLayoutUtils.countIntersections(layout) + 1) / 10.0d;
+        } else {
+            return 1.0d;
+        }
     }
 }

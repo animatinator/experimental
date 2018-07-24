@@ -24,8 +24,8 @@ public class BoardGeneratorTest {
 
     @Test
     public void evaluateDefaultBoardGeneration() {
-        BoardEvaluator evaluator = new SimpleBoardEvaluator();
         BoardGenerationFlags flags = new BoardGenerationFlags();
+        BoardEvaluator evaluator = new SimpleBoardEvaluator(flags);
         BoardGenerator generator = new BoardGenerator(evaluator, flags);
         double[] results = new double[ITERATIONS];
         double best = -1.0d;
@@ -86,6 +86,26 @@ public class BoardGeneratorTest {
         compareFlagSets(flagsWithMultiGenerationEnabled, justRandomWordSelection);
     }
 
+    /**
+     * This test isn't particularly meaningful because the flag {@link
+     * BoardGenerationFlagConstant#PREFER_MORE_INTERSECTIONS} increases the score of equivalent boards.
+     * TODO: It might be worth evaluating them on the same metrics at the end and only changing how we evaluate them
+     * during generation.
+     */
+    @Test
+    public void comparePreferMoreIntersections() {
+        BoardGenerationFlags flagsWithMoreIntersectionsPreferred = new BoardGenerationFlags();
+        flagsWithMoreIntersectionsPreferred.setFlag(BoardGenerationFlagConstant.GENERATE_SEVERAL_BOARDS, true);
+        flagsWithMoreIntersectionsPreferred.setFlag(BoardGenerationFlagConstant.PICK_RANDOMLY_FROM_BEST_FEW_WORD_PLACEMENTS, true);
+        flagsWithMoreIntersectionsPreferred.setFlag(BoardGenerationFlagConstant.PREFER_MORE_INTERSECTIONS, true);
+
+        BoardGenerationFlags flagsWithoutMoreIntersectionsPreferred = new BoardGenerationFlags();
+        flagsWithoutMoreIntersectionsPreferred.setFlag(BoardGenerationFlagConstant.GENERATE_SEVERAL_BOARDS, true);
+        flagsWithoutMoreIntersectionsPreferred.setFlag(BoardGenerationFlagConstant.PICK_RANDOMLY_FROM_BEST_FEW_WORD_PLACEMENTS, true);
+
+        compareFlagSets(flagsWithMoreIntersectionsPreferred, flagsWithoutMoreIntersectionsPreferred);
+    }
+
     private void compareFlagSets(BoardGenerationFlags ... flags) {
         System.out.println("Flag set comparison:");
         List<FitnessResult> results = evaluateGenerationWithFlags(flags);
@@ -107,7 +127,7 @@ public class BoardGeneratorTest {
     }
 
     private FitnessResult evaluateBoardGeneration(BoardGenerationFlags flags) {
-        BoardEvaluator evaluator = new SimpleBoardEvaluator();
+        BoardEvaluator evaluator = new SimpleBoardEvaluator(flags);
         BoardGenerator generator = new BoardGenerator(evaluator, flags);
         double sum = 0.0d;
         double best = -1.0d;

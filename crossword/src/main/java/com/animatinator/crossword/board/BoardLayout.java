@@ -24,7 +24,7 @@ public class BoardLayout {
      * @param height  The height of the board
      * @param topLeft The co-ordinates of the top-left tile of the board, to allow for negative locations
      */
-    BoardLayout(int width, int height, BoardPosition topLeft) {
+    public BoardLayout(int width, int height, BoardPosition topLeft) {
         this.width = width;
         this.height = height;
         this.topLeft = topLeft;
@@ -37,7 +37,7 @@ public class BoardLayout {
      * @param width  The width of the board
      * @param height The height of the board
      */
-    BoardLayout(int width, int height) {
+    public BoardLayout(int width, int height) {
         this(width, height, new BoardPosition(0, 0));
     }
 
@@ -127,7 +127,7 @@ public class BoardLayout {
     }
 
     // For testing.
-    void copyLayoutFromStringArray(String[][] stringArray) {
+    public void copyLayoutFromStringArray(String[][] stringArray) {
         if (stringArray.length == 0) {
             throw new IllegalArgumentException("Layout array cannot be empty");
         }

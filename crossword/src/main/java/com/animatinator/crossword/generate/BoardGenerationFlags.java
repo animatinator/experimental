@@ -25,7 +25,7 @@ public class BoardGenerationFlags {
         flagValues.put(flag.ordinal(), value);
     }
 
-    boolean getFlag(BoardGenerationFlagConstant flag) {
+    public boolean getFlag(BoardGenerationFlagConstant flag) {
         return flagValues.get(flag.ordinal());
     }
 

@@ -9,4 +9,6 @@ public enum BoardGenerationFlagConstant {
     PICK_RANDOMLY_FROM_BEST_FEW_WORD_PLACEMENTS,
     // Generate a series of boards and pick the best one.
     GENERATE_SEVERAL_BOARDS,
+    // Prefer boards with more intersections when evaluating.
+    PREFER_MORE_INTERSECTIONS,
 }

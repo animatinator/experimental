@@ -22,7 +22,7 @@ public class Main {
 
     public static void main(String[] args) {
         BoardGenerationFlags flags = setUpFlags();
-        BoardGenerator generator = new BoardGenerator(new SimpleBoardEvaluator(), flags);
+        BoardGenerator generator = new BoardGenerator(new SimpleBoardEvaluator(flags), flags);
         Board board = generator.generateBoard(Arrays.asList(generatedWords));
         BoardPrinter printer = new BoardPrinter(new SystemOutPrinter(), new BoardToDebugOutput(true));
         printer.printBoard(board);
@@ -33,6 +33,7 @@ public class Main {
 
         flags.setFlag(BoardGenerationFlagConstant.PICK_RANDOMLY_FROM_BEST_FEW_WORD_PLACEMENTS, true);
         flags.setFlag(BoardGenerationFlagConstant.GENERATE_SEVERAL_BOARDS, true);
+        flags.setFlag(BoardGenerationFlagConstant.PREFER_MORE_INTERSECTIONS, true);
 
         return flags;
     }
