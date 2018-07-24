@@ -14,5 +14,5 @@ The `data` folder contains some sample dictionaries for experimentation.
 ```
 >> Main /data/basicdict.txt
 
-PuzzleConfiguration{letter set={ e, e, e, g, i, l, l, n, r, v, }; words=[level, erin, eileen, eine, grille, gen]}
+PuzzleConfiguration{letter set={ c, e, e, l, r, t, u, }; words=[true, elect, etc, rule, cute, cut, let, rule, lecture, clue]}
 ```

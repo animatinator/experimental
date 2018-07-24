@@ -19,8 +19,8 @@ public class Main {
             e.printStackTrace();
             return;
         }
-        PuzzleGenerator generator = new PuzzleGenerator(dictionary).withMinimumWordLength(3).withMaximumWordCount(6);
-        PuzzleConfiguration puzzle = generator.buildPuzzle(10);
+        PuzzleGenerator generator = new PuzzleGenerator(dictionary).withMinimumWordLength(3).withMaximumWordCount(10);
+        PuzzleConfiguration puzzle = generator.buildPuzzle(7);
         System.out.println(puzzle);
     }
 
@@ -38,6 +38,11 @@ public class Main {
         ProcessedDictionary dictionary = new ProcessedDictionary();
 
         for (String word : words) {
+            // '#' lines are comments.
+            if (word.startsWith("#")) {
+                continue;
+            }
+
             dictionary.addWord(word);
         }
 
