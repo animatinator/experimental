@@ -12,7 +12,7 @@ The `data` folder contains some sample dictionaries for experimentation.
 
 ## Usage
 ```
->> Main /data/basicdict.txt
+>> Main /data/top5000.txt
 
 PuzzleConfiguration{letter set={ c, e, e, l, r, t, u, }; words=[true, elect, etc, rule, cute, cut, let, rule, lecture, clue]}
 ```
