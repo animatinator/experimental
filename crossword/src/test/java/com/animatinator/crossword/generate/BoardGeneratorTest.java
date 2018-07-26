@@ -87,10 +87,11 @@ public class BoardGeneratorTest {
     }
 
     /**
-     * This test isn't particularly meaningful because the flag {@link
-     * BoardGenerationFlagConstant#PREFER_MORE_INTERSECTIONS} increases the score of equivalent boards.
-     * TODO: It might be worth evaluating them on the same metrics at the end and only changing how we evaluate them
-     * during generation.
+     * BoardGenerationFlagConstant#PREFER_MORE_INTERSECTIONS} is consistently /a bit/ better than the existing
+     * algorithm, but the difference is surprisingly small.
+     *
+     * This test use a board evaluator which prefers more intersections in evaluating both flag sets to give comparable
+     * results.
      */
     @Test
     public void comparePreferMoreIntersections() {
@@ -103,12 +104,19 @@ public class BoardGeneratorTest {
         flagsWithoutMoreIntersectionsPreferred.setFlag(BoardGenerationFlagConstant.GENERATE_SEVERAL_BOARDS, true);
         flagsWithoutMoreIntersectionsPreferred.setFlag(BoardGenerationFlagConstant.PICK_RANDOMLY_FROM_BEST_FEW_WORD_PLACEMENTS, true);
 
-        compareFlagSets(flagsWithMoreIntersectionsPreferred, flagsWithoutMoreIntersectionsPreferred);
+        compareFlagSets(
+                new SimpleBoardEvaluator(flagsWithMoreIntersectionsPreferred),
+                flagsWithMoreIntersectionsPreferred,
+                flagsWithoutMoreIntersectionsPreferred);
     }
 
     private void compareFlagSets(BoardGenerationFlags ... flags) {
+        compareFlagSets(null, flags);
+    }
+
+    private void compareFlagSets(BoardEvaluator overridingResultEvaluator, BoardGenerationFlags ... flags) {
         System.out.println("Flag set comparison:");
-        List<FitnessResult> results = evaluateGenerationWithFlags(flags);
+        List<FitnessResult> results = evaluateGenerationWithFlags(overridingResultEvaluator, flags);
         results.sort(Comparator.comparingDouble(FitnessResult::getMean).reversed());
         for (FitnessResult result : results) {
             System.out.println("Flags: "+result.getFlags()+"\n\tMean fitness: "+result.getMean()+"\n\tMax fitness: "+ result.getMax());
@@ -116,25 +124,29 @@ public class BoardGeneratorTest {
         System.out.println();
     }
 
-    private List<FitnessResult> evaluateGenerationWithFlags(BoardGenerationFlags ... flags) {
+    private List<FitnessResult> evaluateGenerationWithFlags(
+            BoardEvaluator overridingResultEvaluator, BoardGenerationFlags ... flags) {
         List<FitnessResult> results = new ArrayList<>();
 
         for (BoardGenerationFlags flagSet : flags) {
-            results.add(evaluateBoardGeneration(flagSet));
+            results.add(evaluateBoardGeneration(overridingResultEvaluator, flagSet));
         }
 
         return results;
     }
 
-    private FitnessResult evaluateBoardGeneration(BoardGenerationFlags flags) {
+    private FitnessResult evaluateBoardGeneration(
+            BoardEvaluator overridingResultEvaluator, BoardGenerationFlags flags) {
         BoardEvaluator evaluator = new SimpleBoardEvaluator(flags);
+        BoardEvaluator resultsEvaluator =
+                (overridingResultEvaluator != null) ? overridingResultEvaluator : evaluator;
         BoardGenerator generator = new BoardGenerator(evaluator, flags);
         double sum = 0.0d;
         double best = -1.0d;
 
         for (int i = 0; i < ITERATIONS; i++) {
             Board board = generator.generateBoard(Arrays.asList(WORDS));
-            double fitness = evaluator.evaluateBoard(board);
+            double fitness = resultsEvaluator.evaluateBoard(board);
             sum += fitness;
             best = Math.max(best, fitness);
         }
