@@ -1,5 +1,8 @@
 # Crossword word set generator
 
+**NOTE:** This has been merged into [Wordo](https://github.com/animatinator/Wordo);
+development is continuing there.
+
 This module generates a list of words usable in a crossword-style puzzle in
 which all words must be formable from the same finite set of letters (probably
 around six or seven).

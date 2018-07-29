@@ -1,5 +1,8 @@
 # Crossword generator
 
+**NOTE:** This has been merged into [Wordo](https://github.com/animatinator/Wordo);
+development is continuing there.
+
 Generates a crossword given a list of words. Can output to JSON format for
 convenience - see sample output below.
 
