@@ -2,11 +2,12 @@ package com.animatinator.practice.apartments;
 
 import com.animatinator.practice.apartments.data.Requirement;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 class OptimalApartment {
+    /**
+     * Sweet linear-time solution (messy though due to time constraints D:).
+     */
     static int getLongestWalkFromOptimalApartment(List<Requirement> requirements, List<List<Requirement>> buildings) {
         if (buildings.size() == 0) {
             return -1;
@@ -63,5 +64,33 @@ class OptimalApartment {
         }
 
         return true;
+    }
+
+    /**
+     * Terribly inefficient solution, just giving it a quick go for practice.
+     */
+    static int getLongestWalkFromOptimalApartment_bruteForce(List<Requirement> requirements, List<List<Requirement>> buildings) {
+        int best = Integer.MAX_VALUE;
+
+        for (int r = 0; r < buildings.size(); r++) {
+            for (int l = 0; l <= r; l++) {
+                Set<Requirement> requirementsForChecking = new HashSet<>(requirements);
+                for (int b = l; b <= r; b++) {
+                    for (Requirement req : buildings.get(b)) {
+                        requirementsForChecking.remove(req);
+                    }
+                }
+
+                if (requirementsForChecking.isEmpty()) {
+                    int maxWalkHere = (r - l + 1) / 2;
+                    best = Math.min(best, maxWalkHere);
+                }
+            }
+        }
+
+        if (best > buildings.size()) {
+            return -1;
+        }
+        return best;
     }
 }

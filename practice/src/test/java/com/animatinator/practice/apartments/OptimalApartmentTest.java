@@ -21,6 +21,7 @@ public class OptimalApartmentTest {
         List<Requirement> requirements = Arrays.asList(SHOP, LIBRARY);
 
         assertEquals(-1, OptimalApartment.getLongestWalkFromOptimalApartment(requirements, new ArrayList<>()));
+        assertEquals(-1, OptimalApartment.getLongestWalkFromOptimalApartment_bruteForce(requirements, new ArrayList<>()));
     }
 
     @Test
@@ -38,6 +39,7 @@ public class OptimalApartmentTest {
                 Arrays.asList(CHIPPY, TUBE_STOP));
 
         assertEquals(2, OptimalApartment.getLongestWalkFromOptimalApartment(requirements, neighbourhood));
+        assertEquals(2, OptimalApartment.getLongestWalkFromOptimalApartment_bruteForce(requirements, neighbourhood));
     }
 
     @Test
@@ -58,6 +60,7 @@ public class OptimalApartmentTest {
                 Arrays.asList(CHIPPY, TUBE_STOP));
 
         assertEquals(0, OptimalApartment.getLongestWalkFromOptimalApartment(requirements, neighbourhood));
+        assertEquals(0, OptimalApartment.getLongestWalkFromOptimalApartment_bruteForce(requirements, neighbourhood));
     }
 
     @Test
@@ -75,6 +78,7 @@ public class OptimalApartmentTest {
                 Collections.singletonList(CHIPPY));
 
         assertEquals(-1, OptimalApartment.getLongestWalkFromOptimalApartment(requirements, neighbourhood));
+        assertEquals(-1, OptimalApartment.getLongestWalkFromOptimalApartment_bruteForce(requirements, neighbourhood));
     }
 
     @Test
@@ -99,5 +103,6 @@ public class OptimalApartmentTest {
                 new ArrayList<>());
 
         assertEquals(5, OptimalApartment.getLongestWalkFromOptimalApartment(requirements, neighbourhood));
+        assertEquals(5, OptimalApartment.getLongestWalkFromOptimalApartment_bruteForce(requirements, neighbourhood));
     }
 }
