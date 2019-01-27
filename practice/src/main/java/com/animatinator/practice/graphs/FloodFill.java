@@ -1,6 +1,9 @@
 package com.animatinator.practice.graphs;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 class FloodFill {
     static void floodFill(boolean[][] world, int x, int y) {
@@ -13,20 +16,17 @@ class FloodFill {
         int width = world[0].length;
         boolean baseColour = world[y][x];
         Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
-        Set<Pair<Integer, Integer>> seen = new HashSet<>();
         queue.add(new Pair<>(x, y));
 
         while (!queue.isEmpty()) {
             Pair<Integer, Integer> current = queue.poll();
             assert(current != null);
 
-            if (!seen.contains(current)
-                    && isInRange(current, width, height)
+            if (isInRange(current, width, height)
                     && world[current.y][current.x] == baseColour) {
                 world[current.y][current.x] = !baseColour;
                 queue.addAll(getNeighbours(current.x, current.y));
             }
-            seen.add(current);
         }
     }
 
