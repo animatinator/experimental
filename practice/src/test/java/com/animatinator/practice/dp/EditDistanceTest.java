@@ -15,4 +15,10 @@ public class EditDistanceTest {
         assertEquals(8, EditDistance.getMinNumEdits("carthorse", "orchestra"));
         assertEquals(3, EditDistance.getMinNumEdits("dbc", "abcde"));
     }
+
+    @Test
+    public void longestSubsequence() {
+        assertEquals(0, EditDistance.getLongestSubsequence("abc", "def"));
+        assertEquals(3, EditDistance.getLongestSubsequence("abcdef", "gabklklcdeq"));
+    }
 }
