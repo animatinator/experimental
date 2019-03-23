@@ -13,7 +13,7 @@ class BottomView {
         while (!toVisit.isEmpty()) {
             BinaryTree head = toVisit.poll();
             assert(head != null);
-            
+
             bottomView.put(head.xPos, head.value);
             minX = Math.min(minX, head.xPos);
 
